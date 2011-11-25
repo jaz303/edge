@@ -1,0 +1,14 @@
+<%= error_messages_for(:admin_user) %>
+
+<%= admin_form_for(@admin_user) do |f| %>
+  <%= f.fieldset do %>
+    <%= f.text_field :username, :label => 'Username:', :note => 'Must be unique' %>
+    <%= f.text_field :password, :label => 'Password:', :note => (@admin_user.new_record? ? nil : 'Enter only if you wish to change this user\'s password') %>
+    <%= f.text_field :email, :label => 'Email:', :note => 'Must be unique' %>
+    <%= f.text_field :forename, :label => 'Forename:' %>
+    <%= f.text_field :surname, :label => 'Surname:' %>
+    <%= f.check_box :super_user, :label => 'Super user?' %>
+    <%= f.check_box :active, :label => 'Account active?' %>
+    <%= f.buttons %>
+  <% end %>
+<% end %>

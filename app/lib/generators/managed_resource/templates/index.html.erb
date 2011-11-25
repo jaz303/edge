@@ -1,0 +1,12 @@
+<%%= list_view(@<%= plural_table_name %>) do |l|
+  
+<% attributes.each do |attribute| -%>
+  l.column :<%= attribute.name %>
+<% end -%>
+  
+  l.action('Edit', :icon => :pencil, :url => {:action => 'edit'})
+  l.action('Delete', :icon => :minus_circle, :url => {:action => 'delete'})
+
+end %>
+
+<%%= pagination @<%= plural_table_name %> %>

@@ -1,0 +1,12 @@
+<%= render :partial => 'admin/common/access_sidebar' %>
+
+<% context_menu do %>
+  <%= icon_link_to(:user, 'List users', :action => :index) %>
+  <% if %w(edit update delete destroy access).include?(controller.action_name) %>
+    | <%= icon_link_to(:user_pencil, 'Edit user', :action => :edit, :id => params[:id]) %>
+    | <%= icon_link_to(:user_minus, 'Delete user', :action => :delete, :id => params[:id]) %>
+  <% else %>
+    | <%= icon_link_to(:user_plus, 'Add new user', :action => :new) %>
+  <% end %>
+<% end %>
+

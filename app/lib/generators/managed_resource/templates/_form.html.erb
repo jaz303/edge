@@ -1,0 +1,10 @@
+<%%= error_messages_for(:<%= singular_table_name %>) %>
+
+<%%= admin_form_for(@<%= singular_table_name %>) do |f| %>
+  <%%= f.fieldset do %>
+<% attributes.each do |attribute| -%>
+    <%%= f.<%= attribute.field_type %> :<%= attribute.name %>, :label => true %>
+<% end -%>
+    <%%= f.buttons %>
+  <%% end %>
+<%% end %>

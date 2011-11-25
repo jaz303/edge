@@ -1,0 +1,71 @@
+<html>
+  <head>
+    <title>Edge Admin :: Login</title>
+    <%=stylesheet_link_tag('admin/flash.css') %>
+    <style type='text/css'>
+      
+      body {
+        font: 9pt Verdana, Helvetica, sans-serif;
+        background-color: #EEF7FB;
+      }
+      
+      #login_box {
+        width: 500px; min-height: 200px;
+        border: 2px solid #536B8B;
+        background: white url(/images/admin/login_logo.png) no-repeat 20px 20px;
+        text-align: left;
+      }
+      
+      #login_content { margin: 15px 10px 10px 180px; }
+      
+      h1 {
+        color: #446393;
+        font-size: 12pt;
+        margin: 0 0 15px 0;
+      }
+      
+      label {
+        display: block;
+        font-size: 8.5pt;
+        margin: 0 0 3px 0;
+        font-weight: bold;
+        color: #536B8B;
+      }
+      
+      input.text {
+        border: 1px solid #536B8B;
+        font-size: 8.5pt;
+        display: block;
+        margin: 0 0 7px 0;
+        padding: 2px;
+      }
+      
+    </style>
+  </head>
+  <body>
+    <table width='100%' height='100%'>
+      <tr>
+        <td align='center' valign='middle'>
+          <div id='login_box'>
+            <div id='login_content'>
+              <h1>Your Site</h1>
+              
+              <% flash.each do |k,v| %>
+                <div class='flash <%=k %>'><%=v %></div>
+              <% end %>
+
+              <%= form_tag(admin_session_url) do %>
+                <label>Username:</label>
+                <input class='text' type='text' name='session[username]' value='<%=@username %>' />
+                <label>Password:</label>
+                <input class='text' type='password' name='session[password]' style='margin-bottom: 20px' />
+                <input class='button' type='submit' value='Login' />
+              <% end %>
+              
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

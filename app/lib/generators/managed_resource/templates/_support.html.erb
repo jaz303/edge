@@ -1,0 +1,9 @@
+<%% context_menu do %>
+  <%%= icon_link_to(:table, 'List <%= human_name.pluralize.downcase %>', :action => :index) %>
+  <%% if %w(edit update delete destroy).include?(controller.action_name) %>
+    | <%%= icon_link_to(:pencil, 'Edit <%= human_name.downcase %>', :action => :edit, :id => params[:id]) %>
+    | <%%= icon_link_to(:minus_circle, 'Delete <%= human_name.downcase %>', :action => :delete, :id => params[:id]) %>
+  <%% else %>
+    | <%%= icon_link_to(:plus_circle, 'Add new <%= human_name.downcase %>', :action => :new) %>
+  <%% end %>
+<%% end %>

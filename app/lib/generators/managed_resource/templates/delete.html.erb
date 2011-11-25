@@ -1,0 +1,4 @@
+<%%= form_for([:admin, @<%= singular_table_name %>], :method => :delete) do %>
+  <p>Please confirm you wish to delete this <%= human_name.downcase %>:</p>
+  <p><%%= submit_tag('Delete this <%= human_name.downcase %>') %> or <%%= link_to('cancel', <%= admin_list_helper %>) %></p>
+<%% end %>

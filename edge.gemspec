@@ -7,16 +7,8 @@ Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.summary = "..."
   
-  # s.add_dependency 'activesupport', '>= 3.0.3', '< 3.1'
-  # s.add_dependency 'activerecord', '>= 3.0.3', '< 3.1'
-  # s.add_dependency 'mongrel'
-  # s.add_dependency 'rack'
-  # s.add_dependency 'rack-contrib'
-  # s.add_dependency 'sinatra'
-  # s.add_dependency 'json'
-  # s.add_dependency 'fastthread'
-  
-  assets  = Dir["assets/**/*"]
+  s.add_dependency 'bcrypt-ruby'
+  s.add_dependency 'will_paginate'
   
   bin     = Dir["bin/*"]
   db      = Dir["db/**/*.rb"]

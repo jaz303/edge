@@ -1,0 +1,43 @@
+
+//
+// All around
+
+.buttons {
+	input {
+		font-size: 11px;
+		padding: 3px 9px 5px 9px;
+		color: white;
+		@include vertical-gradient($gradient_dark, $gradient_light);
+		border: 1px solid #0e254f;
+		
+		&.ok:active { color: #8FFF90; }
+		&.cancel:active { color: #ff9090; }
+		&.reset:active { color: #ffff90; }
+	}
+}
+
+//
+// Default form style
+
+$tabular_form_label_width		: 140px;
+$tabular_form_spacing_h			: 10px;
+$tabular_form_spacing_v			: 10px;
+
+form.tabular {
+	fieldset {
+		> ol {
+			> li {
+				display: block;
+				list-style: none;
+				margin-bottom: $tabular_form_spacing_v;
+				label { display: block; float: left; width: $tabular_form_label_width; font-size: 11px; padding-top: 2px }
+				.form-input { margin-left: $tabular_form_label_width + $tabular_form_spacing_h; }
+				.note { color: #909090; margin-top: 3px }
+			}
+		}
+	}
+	.buttons {
+		margin-top: $tabular_form_spacing_v;
+		margin-left: $tabular_form_label_width + $tabular_form_spacing_h;
+	}
+}

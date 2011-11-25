@@ -1,0 +1,14 @@
+.flash {
+	font-size: 11px; line-height: 1.4;
+	padding: 8px 8px 8px 30px; margin: 0 0 10px 0;
+	border-width: 1px; border-style: solid; background-repeat: no-repeat;
+	background-position: 8px 8px;
+	
+	&.error { border-color: #770000; color: #770000; background-color: #ffdddd; background-image: image-url('ico_fugue_exclamation_red.png'); }
+	&.warning { border-color: #D46100; color: #D46100; background-color: #FDF9DD; background-image: image-url('ico_fugue_exclamation.png'); }
+	&.notice { border-color: #000077; color: #000077; background-color: #ddddff; background-image: image-url('ico_fugue_information.png'); }
+	&.success { border-color: #007700; color: #007700; background-color: #ddffdd; background-image: image-url('ico_fugue_tick_circle.png'); }
+	
+	ul { margin: 0.5em 0 0 20px; padding: 0; }
+	li { margin: 0 0 0.3em 0; padding: 0; list-style: disc; display: list-item }
+}

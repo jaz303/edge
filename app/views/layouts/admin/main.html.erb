@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>EdgeCMS</title>
+  <meta name='rails_session_key' content='<%= h(::Rails.application.config.session_options[:key]) %>' />
+  <meta name='rails_session_data' content='<%= h(cookies[::Rails.application.config.session_options[:key]]) %>' />
+  <%= csrf_meta_tags %>
+
+  <%= stylesheet_link_tag 'admin/main' %>
+  <%= javascript_include_tag 'admin/main.js' %>
+  <%= javascript_include_tag '/javascripts/tiny_mce/tiny_mce.js',
+                             '/javascripts/tiny_mce/jquery.tinymce.js' %>
+
+<!--
+  <%= javascript_include_tag 'admin/jquery.min.js',
+                             'admin/classy.js',
+                             'admin/jquery.rebind.js',
+                             'admin/widgets.js',
+                             'admin/jquery.form.js',
+                             'admin/jquery.tipsy.js',
+                             'admin/jquery.boxy.js',
+                             'admin/jquery.repeater.js',
+                             'admin/jquery.dom-builder.js',
+                             'admin/swfupload.js',
+                             'admin/asset-dialog.js',
+                             'tiny_mce/jquery.tinymce.js',
+                             'admin/tinymce.js',
+                             'admin/application.js',
+                             'admin/edge-widgets.js' %>
+-->
+
+</head>
+<body>
+  <div id='container'>
+    
+    <div id='header'>
+      <div class='header-title'>
+        <h1><%= h(admin_title) %></h1>
+        <h2><%= h(admin_subtitle) %></h2>
+      </div>
+    
+      <ul id='sections'>
+        <li><a href='#'>Home</a></li>
+        <li><a href='#'>Foo</a></li>
+        <li><a href='#'>Bar</a></li>
+        <li><a href='#' class='active'>Baz</a></li>
+      </ul>
+    
+      <div id='status'>
+        <%= Time.now.strftime("%A %d %B %Y") %><br/>
+        Logged in as <b>ADMIN</b>
+        <div style='margin-top: 4px'>
+          <%= icon :picture %> <%= link_to 'assets', '#', :id => 'asset-dialog-actuator' %> |
+          <%= icon(:door_open_out) %> <%=link_to('logout', logout_admin_session_url) %>
+        </div>
+      </div>
+    
+    </div>
+  
+    <div id='body'>
+      <%= render :partial => 'support' rescue nil %>
+    
+      <% content_class = '' %>
+    
+      <% left_sidebar = content_for(:left_sidebar) %>
+      <% unless left_sidebar.blank? %>
+        <% content_class << ' left-sidebar' %>
+        <div id='left-sidebar' class='sidebar'><%= left_sidebar %></div>
+      <% end %>
+      
+      <% right_sidebar = content_for(:right_sidebar) %>
+      <% unless right_sidebar.blank? %>
+        <% content_class << ' right-sidebar' %>
+        <div id='right-sidebar' class='sidebar'><%= right_sidebar %></div>
+      <% end %>
+    
+      <div id='content-outer' class='<%=content_class %>'>
+        <% context_menu = content_for(:context_menu) %>
+        <% unless context_menu.blank? %>
+          <div id='context'><%=context_menu %></div>
+        <% end %>
+        <div id='content'>
+          <% flash.each do |k,v| %>
+            <div class='flash <%=k %>'><%=v.html_safe %></div>
+          <% end %>
+          <%= yield %>
+        </div>
+      </div>
+    </div>
+    
+    <div id='footer'>
+      <div class='footer-inner'>
+        <b>SITE TITLE</b> powered by <a href='#'>Edge CMS</a> | &copy; 2008-2011 Jason Frame
+      </div>
+    </div>
+    
+  </div>
+  
+  <div id='activity-indicator'></div>
+</body>
+</html>

@@ -1,0 +1,8 @@
+<%= form_for([:admin, @admin_user], :method => :delete) do %>
+  <p>Please confirm you wish to delete this user:</p>
+  <p><%= submit_tag('Delete this user') %> or <%= link_to('cancel', admin_admin_users_url) %></p>
+<% end %>
+
+<div class='flash warning'>
+  <b>WARNING:</b> deleting a user is irreverisible.
+</div>

@@ -1,0 +1,16 @@
+<% #= filtration_form %>
+
+<%= list_view(@admin_users) do |l|
+  l.column(:username) { |o,v| o.super_user? ? "#{icon(:user_business)} #{v}" : v }
+  l.column :forename
+  l.column :surname
+  l.column('Status') { |o,v| o.active? \
+                              ? (icon(:flag_green) + " <b style='color:green'>active</b>".html_safe) \
+                              : (icon(:flag)   + " <b style='color:red'>inactive</b>".html_safe) }
+  
+  l.action('Edit', :icon => :user_pencil, :url  => {:action => 'edit'})
+  l.action('Delete', :icon => :user_minus, :url => {:action => 'delete'})
+  l.action('Send email', :icon => :mail, :url => lambda { |o| "mailto:#{o.email}" })
+end %>
+
+<%= pagination @admin_users %>
