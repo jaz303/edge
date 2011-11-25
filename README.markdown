@@ -2,7 +2,6 @@
 
 ### Installation Steps
 
-  * Add gem to project
-  * Add required routes to `routes.rb`
-  * Copy JS config file to assets dir
-  * Symlink/copy TinyMCE to `public/javascripts`
+  * Add `gem 'edge', :git => 'https://jaz303@github.com/jaz303/edge.git'` to your `Gemfile`
+  * `bundle install`
+  * `rails g edge`
