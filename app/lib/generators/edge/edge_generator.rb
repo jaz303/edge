@@ -9,6 +9,7 @@ class EdgeGenerator < Rails::Generators::Base
   def copy_javascripts
     copy_file 'edge.config.js', 'app/assets/javascripts/admin/edge.config.js'
     directory 'tiny_mce', 'public/javascripts/tiny_mce'
+    directory 'migrations', 'db/migrate'
   end
   
   def copy_migrations
