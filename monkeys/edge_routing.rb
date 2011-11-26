@@ -10,7 +10,9 @@ ActionDispatch::Routing::Mapper::Base.class_eval do
         edge_admin_resources(:admin_users)
         edge_admin_resources(:admin_groups)
       when :assets
-        puts "mapping assets..."
+        match 'assets/show/:id(/:profile)'  => 'assets#show',     :id => /\d+/, :profile => 'default', :as => 'asset'
+        match 'assets/thumb/:id(/:profile)' => 'assets#thumb',    :id => /\d+/, :profile => 'default', :as => 'asset_thumb'
+        match 'assets/download/:id'         => 'assets#download', :id => /\d+/, :profile => 'default', :as => 'asset_download'
       when :content
         puts "mapping content..."
       when :home_content
