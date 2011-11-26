@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>EdgeCMS</title>
+  <title><%= admin_title || Edge::Platform.name %></title>
   <meta name='rails_session_key' content='<%= h(::Rails.application.config.session_options[:key]) %>' />
   <meta name='rails_session_data' content='<%= h(cookies[::Rails.application.config.session_options[:key]]) %>' />
   <%= csrf_meta_tags %>
@@ -91,7 +91,9 @@
     
     <div id='footer'>
       <div class='footer-inner'>
-        <b>SITE TITLE</b> powered by <a href='#'>Edge CMS</a> | &copy; 2008-2011 Jason Frame
+        <b>SITE TITLE</b> powered by
+        <a href='#'><%= Edge::Platform.name %></a> |
+        <%= Edge::Platform.attribution.html_safe %>
       </div>
     </div>
     
