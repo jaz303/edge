@@ -1,4 +1,6 @@
 class Admin::DashboardController < Admin::BaseController
-  def index
+  section_path :dashboard, :include_action => true
+
+  def main
   end
 end

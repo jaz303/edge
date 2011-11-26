@@ -4,7 +4,7 @@ ActionDispatch::Routing::Mapper::Base.class_eval do
       case default
       when :admin
         scope :module => 'admin' do
-          match 'admin' => 'dashboard#index', :as => 'admin_dashboard'
+          match 'admin' => 'dashboard#main', :as => 'admin_dashboard'
         end
         edge_admin_resource(:session) { get :logout }
         edge_admin_resources(:admin_users)
