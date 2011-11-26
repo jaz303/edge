@@ -7,10 +7,21 @@ require 'will_paginate/active_record'
 require 'will_paginate/view_helpers'
 
 module Edge
+  @@instance = nil
+  
+  def self.application
+    @@instance
+  end
+  
   class Railtie < Rails::Engine
-    # initializer "edge.configure_rails_initialization" do |app|
-    #   app.config.assets.paths << File.join(EDGE_ROOT, 'vendor', 'assets')
-    #   p app.config.assets.paths
-    # end
+    initializer("edge.init") do |app|
+      ::Edge.__send__(:set_application, @@instance = ::Edge::Application.new(app.config))
+    end
+  end
+  
+private
+
+  def self.set_application(app)
+    @@instance = app
   end
 end
