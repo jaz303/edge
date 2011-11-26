@@ -12,13 +12,28 @@ class Admin::BaseController < ApplicationController
   helper 'edge/icon'
   helper 'edge/tiny_mce'
   
+  helper_method :section_path
   helper_method :admin_title, :admin_subtitle
   helper_method :set_admin_title, :set_admin_subtitle
   
   before_filter :require_logged_in_admin
+  
+  def section_path
+    path = (self.class.read_inheritable_attribute(:section_path) || []).dup
+    if self.class.instance_variable_get("@section_path_includes_action")
+      path << action_name.to_sym
+    end
+    path
+  end
 
 private
 
+  def self.section_path(*path)
+    options = path.extract_options!
+    write_inheritable_attribute(:section_path, path.map(&:to_sym))
+    @section_path_includes_action = true if options[:include_action]
+  end
+  
   def admin_title
     @admin_title
   end
