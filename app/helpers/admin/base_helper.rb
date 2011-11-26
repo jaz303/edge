@@ -16,6 +16,41 @@ module Admin
     end
     
     #
+    # Modules & sections
+    
+    def current_module
+      ::Edge.application.admin_config.module_for(controller.section_path)
+    end
+    
+    def current_top_level_section
+      ::Edge.application.admin_config.top_level_section_for(controller.section_path)
+    end
+    
+    def admin_section_url(section)
+      section.real_url(self)
+    end
+    
+    def admin_module_select
+      curr  = current_module
+      html  = "<select onchange='document.location=$(this).val();'>"
+      ::Edge.application.admin_config.modules.each do |m|
+        html << "<option value='#{admin_section_url(m)}'#{curr == m ? ' selected' : ''}>#{m.title}</option>"
+      end
+      html << "</select>"
+      html.html_safe
+    end
+    
+    def admin_section_tabs
+      curr = current_top_level_section
+      html = "<ul id='sections'>\n"
+      current_module.children.each_value do |s|
+        html << "  <li><a href='#{admin_section_url(s)}'#{curr == s ? ' class="active"' : ''}>#{h(s.title)}</a></li>\n"
+      end
+      html << "</ul>\n"
+      html.html_safe
+    end
+    
+    #
     # Pagination
     
     def pagination(collection)

@@ -39,18 +39,16 @@
         <h1><%= h(admin_title) %></h1>
         <h2><%= h(admin_subtitle) %></h2>
       </div>
-    
-      <ul id='sections'>
-        <li><a href='#'>Home</a></li>
-        <li><a href='#'>Foo</a></li>
-        <li><a href='#'>Bar</a></li>
-        <li><a href='#' class='active'>Baz</a></li>
-      </ul>
+      
+      <%= admin_section_tabs %>
     
       <div id='status'>
-        <%= Time.now.strftime("%A %d %B %Y") %><br/>
-        Logged in as <b>ADMIN</b>
-        <div style='margin-top: 4px'>
+        Module: <%= admin_module_select %>
+        <div style='margin: 4px 0'>
+          <%= Time.now.strftime("%A %d %b %Y") %> |
+          Logged in as <b>ADMIN</b>
+        </div>
+        <div>
           <%= icon :picture %> <%= link_to 'assets', '#', :id => 'asset-dialog-actuator' %> |
           <%= icon(:door_open_out) %> <%=link_to('logout', logout_admin_session_url) %>
         </div>
