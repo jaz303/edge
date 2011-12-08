@@ -32,9 +32,9 @@ ActionDispatch::Routing::Mapper::Base.class_eval do
   def edge_admin_resources(res)
     namespace :admin do
       resources res do
+        yield if block_given?
         member do
           get :delete
-          yield if block_given?
         end
       end
     end
