@@ -7,7 +7,22 @@ require 'will_paginate/active_record'
 require 'will_paginate/view_helpers'
 
 module Edge
+  @@configs = []
   @@instance = nil
+  
+  def self.configure(&block)
+    @@configs << [block, :app]
+    nil
+  end
+  
+  def self.configure_admin(&block)
+    @@configs << [block, :admin]
+    nil
+  end
+  
+  def self.config_blocks
+    @@configs
+  end
   
   def self.application
     @@instance
@@ -15,7 +30,11 @@ module Edge
   
   class Railtie < Rails::Engine
     initializer("edge.init") do |app|
-      ::Edge.__send__(:set_application, @@instance = ::Edge::Application.new(app.config))
+      app = ::Edge::Application.new(app.config)
+      ::Edge.__send__(:set_application, app)
+      ::Edge.config_blocks.each do |block|
+        block[0].call(block[1] == :app ? app : app.admin_config)
+      end
     end
   end
   
