@@ -37,7 +37,7 @@ private
     add_module :dashboard, 'Dashboard' do |m|
       m.section :main, 'Main', :admin_dashboard_path
     end
-    add_module :cms, 'CMS', '#' do |m|
+    add_module :cms, 'CMS' do |m|
       
     end
     add_module :system, 'System' do |m|
