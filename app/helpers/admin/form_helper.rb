@@ -25,6 +25,11 @@ module Admin::FormHelper
     out.html_safe
   end
   
+  def basic_admin_form_for(record_or_name_or_array, *args, &proc)
+    record_or_name_or_array = [:admin, record_or_name_or_array] if record_or_name_or_array.respond_to?(:new_record?)
+    form_for(record_or_name_or_array, *args, &proc)
+  end
+  
   def admin_form_for(record_or_name_or_array, *args, &proc)
     record_or_name_or_array = [:admin, record_or_name_or_array] if record_or_name_or_array.respond_to?(:new_record?)
     args.push({}) unless args.last.is_a?(Hash)
