@@ -26,7 +26,7 @@ module Edge
       
       def administrator
         unless defined?(@edge_admin)
-          @edge_admin = AdminUser.find_first(session[:edge_admin_id])
+          @edge_admin = AdminUser.find(:first, session[:edge_admin_id])
         end
         @edge_admin
       end
