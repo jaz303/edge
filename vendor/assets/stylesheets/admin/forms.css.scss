@@ -36,6 +36,9 @@ form.tabular {
 			}
 		}
 	}
+	
+	textarea { width: 500px; height: 100px }
+	
 	.buttons {
 		margin-top: $tabular_form_spacing_v;
 		margin-left: $tabular_form_label_width + $tabular_form_spacing_h;
