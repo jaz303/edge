@@ -95,6 +95,8 @@ module Admin::ListViewHelper
           url = a[:url].call(object)
         elsif a[:url].is_a?(Hash)
           url = @template.url_for(a[:url].merge(:id => object))
+        elsif a[:url].is_a?(Symbol)
+          url = @template.send(a[:url], object)
         else
           url = '#'
         end
