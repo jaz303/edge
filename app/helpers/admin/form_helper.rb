@@ -92,6 +92,17 @@ module Admin::FormHelper
       html.html_safe
     end
     
+    def item(options = {}, &block)
+      html  = "<li>\n"
+      html << "  <label>#{options[:label]}</label>\n" if options[:label]
+      html << "  <div class='form-input'>\n"
+      html << @template.capture(&block) if block_given?
+      html << "    <p class='note'>#{options[:note]}</p>\n" if options[:note]
+      html << "  </div>\n"
+      html << "</li>\n"
+      html.html_safe
+    end
+    
     def buttons
       @template.buttons
     end
