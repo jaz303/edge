@@ -89,6 +89,14 @@ module Admin
       end
     end
     
+    def button(text, options = {})
+      options[:type] ||= 'button'
+      if (ico = options.delete(:icon))
+        text = "#{icon(ico)} #{text}".html_safe
+      end
+      button_tag(text, options)
+    end
+    
     #
     # Sidebars, context menus, other page parts
     
