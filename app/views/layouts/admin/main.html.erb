@@ -46,7 +46,7 @@
         Module: <%= admin_module_select %>
         <div style='margin: 4px 0'>
           <%= Time.now.strftime("%A %d %b %Y") %> |
-          Logged in as <b>ADMIN</b>
+          Logged in as <b><%= administrator.full_name %></b>
         </div>
         <div>
           <%= icon :picture %> <%= link_to 'assets', '#', :id => 'asset-dialog-actuator' %> |
