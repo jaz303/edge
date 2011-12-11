@@ -32,6 +32,7 @@ module Edge
     
     initializer 'edge.kludge_paperclip_into_active_record' do
       ActiveSupport.on_load :active_record do
+        require 'paperclip'
         ::Paperclip::Railtie.insert
       end
     end
