@@ -1,3 +1,4 @@
+require 'rails/generators'
 require 'rails/generators/resource_helpers'
 require 'rails/generators/rails/model/model_generator'
 require 'rails/generators/rails/resource/resource_generator'

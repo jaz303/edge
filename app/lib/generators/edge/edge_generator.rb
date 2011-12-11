@@ -1,4 +1,7 @@
-require 'rails/generators/base'
+# TODO: reorganise generators into edge: namespace
+# http://nicksda.apotomo.de/2010/09/getting-a-bloody-rails-3-generator-running-and-testing-it/
+
+require 'rails/generators'
 
 class EdgeGenerator < Rails::Generators::Base
   source_root File.expand_path(File.join(__FILE__, '../templates'))
