@@ -21,8 +21,6 @@ $(function() {
       $.each(edge.config.admin.tinyMCE.defaultOptionSets, function() { optionSets.push(this); });
     }
     
-    console.log(optionSets);
-    
     var options = {};
     $.each(optionSets, function() {
       $.extend(options, edge.config.admin.tinyMCE.optionSets[this] || {});
