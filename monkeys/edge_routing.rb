@@ -9,10 +9,13 @@ ActionDispatch::Routing::Mapper::Base.class_eval do
         edge_admin_resource(:session) { get :logout }
         edge_admin_resources(:admin_users)
         edge_admin_resources(:admin_groups)
+        
+        edge_admin_resources :file_folders
+        edge_admin_resources :files
       when :assets
-        # match 'a/show/:id(/:profile)'  => 'assets#show',     :id => /\d+/, :profile => 'default', :as => 'asset'
-        # match 'a/thumb/:id(/:profile)' => 'assets#thumb',    :id => /\d+/, :profile => 'default', :as => 'asset_thumb'
-        # match 'a/download/:id'         => 'assets#download', :id => /\d+/, :profile => 'default', :as => 'asset_download'
+        match 'files/show/:id(/:profile)'  => 'files#show',     :id => /\d+/, :profile => 'default', :as => 'file'
+        match 'files/thumb/:id(/:profile)' => 'files#thumb',    :id => /\d+/, :profile => 'default', :as => 'file_thumb'
+        match 'files/download/:id'         => 'files#download', :id => /\d+/, :profile => 'default', :as => 'file_download'
       when :content
         puts "mapping content..."
       when :home_content

@@ -1,4 +1,4 @@
-class AssetsController < ApplicationController
+class FilesController < ApplicationController
   caches_page :show, :if => lambda { |c| c.instance_variable_get("@image") }
     
   def show;         do_show;                            end
@@ -9,16 +9,16 @@ private
   
   def do_show(options = {})
     options = {:thumb => false, :download => false}.update(options)
-    @asset = Asset.find(params[:id])
+    @file = File.find(params[:id])
     
     if options[:thumb]
-      s_path = @asset.thumbnail.path
-      s_file = @asset.thumbnail_file_name
-      s_type = @asset.thumbnail_content_type
+      s_path = @file.thumbnail.path
+      s_file = @file.thumbnail_file_name
+      s_type = @file.thumbnail_content_type
     else
-      s_path = @asset.file.path
-      s_file = @asset.file_file_name
-      s_type = @asset.file_content_type
+      s_path = @file.file.path
+      s_file = @file.file_file_name
+      s_type = @file.file_content_type
     end
     
     unless s_path.present?
@@ -26,9 +26,9 @@ private
       raise "asset not found"
     end
     
-    s_disposition = (options[:download] || !@asset.inline?) ? 'attachment' : 'inline'
+    s_disposition = (options[:download] || !@file.inline?) ? 'attachment' : 'inline'
     
-    @image = @asset.web_safe_image?
+    @image = @file.web_safe_image?
     
     if params[:profile] == 'default' || !@image
       send_file(s_path, :filename => s_file, :type => s_type, :disposition  => s_disposition)

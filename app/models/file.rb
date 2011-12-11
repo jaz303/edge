@@ -1,6 +1,6 @@
 require 'mime/types'
 
-class Asset < ActiveRecord::Base
+class File < ActiveRecord::Base
   self.include_root_in_json = true
   
   WEB_SAFE_IMAGE_TYPES  = %w(image/jpeg image/gif image/png)
@@ -11,7 +11,7 @@ class Asset < ActiveRecord::Base
   TEXT_TYPES            = %w(text/plain text/javascript text/css text/html)
   INLINE_TYPES          = WEB_SAFE_IMAGE_TYPES + PDF_TYPES + FLASH_TYPES + TEXT_TYPES
   
-  belongs_to :folder, :class_name => 'AssetFolder', :foreign_key => :folder_id
+  belongs_to :folder, :class_name => 'FileFolder', :foreign_key => :folder_id
   
   has_attached_file :file
   validates_attachment_presence :file
@@ -24,7 +24,7 @@ class Asset < ActiveRecord::Base
   before_validation :set_name_from_filename_if_blank
   
   def title;      name;     end
-  def asset_id;   id;       end
+  def file_id;    id;       end
   
   def filename;       file_file_name;       end
   def content_type;   file_content_type;    end

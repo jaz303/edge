@@ -1,4 +1,6 @@
-class AssetFolder < ActiveRecord::Base
+require 'acts_as_tree'
+
+class FileFolder < ActiveRecord::Base
   self.include_root_in_json = true
   
   acts_as_tree
@@ -8,7 +10,7 @@ class AssetFolder < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => :parent_id
   before_validation { |me| me.name = me.name.strip }
   
-  has_many :assets, :foreign_key => :folder_id, :dependent => :destroy
+  has_many :files, :foreign_key => :folder_id, :dependent => :destroy
   
   def path
     ancestors.reverse.concat([self])
