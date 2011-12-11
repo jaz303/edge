@@ -87,11 +87,18 @@ module Edge::Admin::Crud
     
     def apply!
       
-      @c.__send__(:include, InstanceMethods)
-      @c.class_eval do
+      builder = self
+      
+      c.__send__(:include, InstanceMethods)
+      c.class_eval do
         helper_method :per_page_options
         helper_method :per_page
         helper_method :paginating?
+        helper_method :model_class
+      end
+      
+      c.__send__(:define_method, :model_class) do
+        builder.model_class
       end
       
       builder         = self
