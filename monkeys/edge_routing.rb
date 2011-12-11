@@ -6,7 +6,11 @@ ActionDispatch::Routing::Mapper::Base.class_eval do
         scope :module => 'admin' do
           match 'admin' => 'dashboard#main', :as => 'admin_dashboard'
         end
-        edge_admin_resource(:session) { get :logout }
+        
+        edge_admin_resource(:session) do
+          member { get :logout }
+        end
+        
         edge_admin_resources(:admin_users)
         edge_admin_resources(:admin_groups)
         
