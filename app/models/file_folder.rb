@@ -10,7 +10,7 @@ class FileFolder < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => :parent_id
   before_validation { |me| me.name = me.name.strip }
   
-  has_many :files, :foreign_key => :folder_id, :dependent => :destroy
+  has_many :files, :foreign_key => :folder_id, :dependent => :destroy, :class_name => 'UploadedFile'
   
   def path
     ancestors.reverse.concat([self])

@@ -1,6 +1,8 @@
 require 'mime/types'
 
-class File < ActiveRecord::Base
+class UploadedFile < ActiveRecord::Base
+  set_table_name 'files'
+  
   self.include_root_in_json = true
   
   WEB_SAFE_IMAGE_TYPES  = %w(image/jpeg image/gif image/png)
