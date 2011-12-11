@@ -29,13 +29,21 @@ module Edge
   end
   
   class Railtie < Rails::Engine
-    initializer("edge.init") do |app|
+    
+    initializer 'edge.kludge_paperclip_into_active_record' do
+      ActiveSupport.on_load :active_record do
+        ::Paperclip::Railtie.insert
+      end
+    end
+    
+    initializer 'edge.init' do |app|
       app = ::Edge::Application.new(app.config)
       ::Edge.__send__(:set_application, app)
       ::Edge.config_blocks.each do |block|
         block[0].call(block[1] == :app ? app : app.admin_config)
       end
     end
+    
   end
   
 private
