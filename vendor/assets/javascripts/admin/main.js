@@ -1,5 +1,8 @@
-//= require admin/jquery.min.js
+//= require ./jquery.min.js
+//= require ./classy.js
 //= require admin/edge.config.js
+// require file-manager/file-manager.js
+// require disco/disco.js
 
 $(function() {
   
