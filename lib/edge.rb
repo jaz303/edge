@@ -38,10 +38,14 @@ module Edge
     end
     
     initializer 'edge.init' do |app|
-      app = ::Edge::Application.new(app.config)
-      ::Edge.__send__(:set_application, app)
+      rails_config = app.config
+      rails_config.assets.precompile += %w( admin/main.js admin/main.css admin/flash.css )
+      
+      edge_app = ::Edge::Application.new(rails_config)
+      ::Edge.__send__(:set_application, edge_app)
+      
       ::Edge.config_blocks.each do |block|
-        block[0].call(block[1] == :app ? app : app.admin_config)
+        block[0].call(block[1] == :app ? edge_app : edge_app.admin_config)
       end
     end
     
