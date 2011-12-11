@@ -1,0 +1,8 @@
+<%= error_messages_for(:admin_group) %>
+
+<%= admin_form_for(@admin_group) do |f| %>
+  <%= f.fieldset do %>
+    <%= f.text_field :name, :label => 'Group name:' %>
+    <%= f.buttons %>
+  <% end %>
+<% end %>

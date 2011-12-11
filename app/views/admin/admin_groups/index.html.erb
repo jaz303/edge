@@ -1,0 +1,8 @@
+<%= list_view(@admin_groups) do |l|
+  l.column :name
+  
+  l.action('Edit', :icon => :user_pencil, :url  => {:action => 'edit'})
+  l.action('Delete', :icon => :user_minus, :url => {:action => 'delete'})
+end %>
+
+<%= pagination @admin_groups %>

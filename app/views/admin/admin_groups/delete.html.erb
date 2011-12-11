@@ -1,0 +1,4 @@
+<%= form_for([:admin, @admin_group], :method => :delete) do %>
+  <p>Please confirm you wish to delete this group:</p>
+  <p><%= submit_tag('Delete this group') %> or <%= link_to('cancel', admin_admin_groups_url) %></p>
+<% end %>
