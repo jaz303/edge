@@ -5,7 +5,7 @@ module Edge
     end
     
     def self.attribution
-      "&copy; 2008-2011 Jason Frame"
+      "&copy; 2008-2012 Jason Frame"
     end
     
     def self.authors
