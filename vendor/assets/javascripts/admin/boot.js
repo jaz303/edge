@@ -27,10 +27,20 @@ $.rebind(function(context) {
   //
   // Widgets
   
+  Widget.initializeAll(context);
+  
 });
 
 $(function() {
   
+  Repeater.configureForRails();
+  
   $.rebind();
+  
+});
+
+$(window).unload(function() {
+  
+  Widget.destroyAll();
   
 });

@@ -1,2 +1,3 @@
 //= require ./widget.js
-//= requrie ./tab-bar.js
+//= require ./tab-bar.js
+//= require ./repeater.js

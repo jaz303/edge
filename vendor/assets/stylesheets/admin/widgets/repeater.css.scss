@@ -1,0 +1,6 @@
+.Widget-Repeater { }
+.Widget-Repeater .repeater-template { display: none }
+.Widget-Repeater .repeater-item { position: relative }
+
+.Widget-Repeater .repeater-item-controls { display: none; position: absolute; bottom: 0; right: 0 }
+.Widget-Repeater .repeater-item:hover .repeater-item-controls { display: block }

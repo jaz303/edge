@@ -18,6 +18,8 @@ $footer_font_size			:	10px;
 
 @import "theme.css.scss";
 
+@import "widgets/repeater.css.scss";
+
 body, table { font: 11px/1.4 "Lucida Grande", "Lucida Sans", Helvetica, sans-serif; color: black; }
 body { background-color: #F4F6FF; }
 

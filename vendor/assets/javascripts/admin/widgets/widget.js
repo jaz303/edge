@@ -1,41 +1,44 @@
-Class.extend('Widget', {
+Widget = Class.extend({
+  methods: {
+    init: function(root) {
+      this.root = root;
+      this.$root = $(root);
+      this.config = $.extend({}, this.defaults(), this._extractConfig());
+      this.$root.data('widget', this);
+      this.setup();
+    },
     
-    methods: {
-        init: function(root, config) {
-            this.root = root;
-            this.$root = $(root);
-            this.config = $.extend({}, this.defaults(), config || {});
-            $.data(this.root, 'widget', this);
-            this.setup();
-        },
-
-        destroy: function() {
-            try {
-                this.dispose();
-            } catch (dontCareAboutThis) {}
-            $.data(this.root, 'widget', false);
-            this.root = null;
-            this.$root = null;
-        },
-
-        /**
-    	 * Override to provide default configuration options.
-    	 * Any of these may be overwritten by configuration options passed to
-    	 * the constructor.
-    	 */
-        defaults: function() { return {}; },
-
-        /**
-         * Implement custom Widget setup/initialisation logic here.
-         */
-        setup: function() {},
-
-        /**
-         * Implement custom destruction logic here.
-         */
-        dispose: function() {}
-        
+    destroy: function() {
+      try {
+        this.dispose();
+      } catch (_ignore) {}
+      this.$root.data('widget', false);
+      this.root = this.$root = null;
+    },
+    
+    /**
+	   * Override to provide default configuration options.
+	   * Any of these may be overwritten by configuration options passed to
+	   * the constructor.
+	   */
+    defaults: function() {
+      return {};
+    },
+    
+    /**
+     * Implement custom Widget setup/initialisation logic here.
+     */
+    setup: function() {},
+    
+    /**
+     * Implement custom destruction logic here.
+     */
+    dispose: function() {},
+    
+    _extractConfig: function() {
+      return Widget.getConfig(this.root);
     }
+  }
 });
 
 /**
@@ -54,7 +57,7 @@ Widget.get = function(ele) {
 
 Widget.classForName = function(widgetName) {
     return "widget-" + widgetName.replace(/\./g, '-');
-}
+};
 
 Widget.nameForClass = function(className) {
     var match = /(^|\s)widget-([\w-]+)($|\s)/.exec(className);
@@ -73,7 +76,7 @@ Widget.nameForClass = function(className) {
 Widget.findAllRoots = function(root) {
     var q = [root], w = [], n = null;
     while (n = q.pop()) {
-        if (n.className.match(/(?:\s|^)widget(?:\s|$)/)) {
+        if (n.className && n.className.match(/(?:\s|^)widget(?:\s|$)/)) {
             w.unshift(n);
         }
         for (var i = 0; i < n.childNodes.length; i++) {
@@ -105,41 +108,37 @@ Widget.destroyAll = function() {
     }
 };
 
+Widget.getConfig = function(ele) {
+  var config = {};
+  $('> script[type="text/javascript-widget-config"]', ele).each(function() {
+		$.extend(config, (new Function($(this).text()))());
+	});
+	return config;
+};
+
 /**
  * Initialize a single widget rooted at a given element.
  */
 Widget.initializeOne = function(element) {
-    
-    var existing = $.data(element, 'widget'), wcn, wc, config = {}, i;
-    
-    // check for existing or destroyed widget (false => destroyed)
-    if (existing || existing === false) return existing;
-    
-    if (wcn = Widget.nameForClass(element.className)) {
-        wcn = wcn.split('.');
-        wc = classy.OUTER_SCOPE;
-        for (i = 0; i < wcn.length; i++) {
-            if (!(wc = wc[wcn[i]])) return null;
-        }
-		$('> script[type="text/javascript-widget-config"]', element).each(function() {
-			$.extend(config, (new Function($(this).text()))());
-		});
-        return new wc(element, config);
-    } else {
-        return null;
+  var existing = $.data(element, 'widget'), wcn, wc, config = {}, i;
+  
+  // check for existing or destroyed widget (false => destroyed)
+  if (existing || existing === false) return existing;
+  
+  if (wcn = Widget.nameForClass(element.className)) {
+    wcn = wcn.split('.');
+    wc = window;
+    for (i = 0; i < wcn.length; i++) {
+        if (!(wc = wc[wcn[i]])) return null;
     }
-    
+	  return new wc(element);
+  } else {
+    return null;
+  }
 };
 
 if (typeof jQuery != 'undefined') {
-    $.fn.widget = function() {
-        return Widget.get(this[0]);
-    };
-    
-    $.rebind(function(context) {
-        if (context == document) context = document.body;
-        Widget.initializeAll(context);
-    });
-    
-    $(window).unload(Widget.destroyAll);
+  $.fn.widget = function() {
+    return Widget.get(this[0]);
+  };
 }

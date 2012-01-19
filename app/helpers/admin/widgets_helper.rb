@@ -1,6 +1,10 @@
 module Admin::WidgetsHelper
-  def widget_config(hash)
-    content_tag(:script, "return #{hash.to_json};".html_safe, :type => 'text/javascript-widget-config')
+  def widget_config(config = nil, &block)
+    config = capture(&block) if block_given?
+    raise "config cannot be nil" unless config
+    config = config.to_json unless config.is_a?(String)
+    config = "{#{config}}" if config[0..0] != '{'
+    content_tag(:script, "return #{config};".html_safe, :type => 'text/javascript-widget-config')
   end
   
   #
@@ -33,4 +37,53 @@ module Admin::WidgetsHelper
     yield builder if block_given?
     builder.to_s
   end
+  
+  #
+  # Repeater
+  
+  class RepeaterBuilder
+    def initialize(template)
+      @t, @configs, @item_template, @data = template, [], '', []
+    end
+    
+    def template(&block)
+      @item_template = @t.capture(&block)
+    end
+    
+    def config(config = nil, &block)
+      @configs.push(@t.widget_config(config, &block))
+    end
+    
+    def data(data)
+      config("{data: #{data.is_a?(String) ? data : data.to_json}}")
+      nil
+    end
+    
+    def to_s
+      # TODO: hide move up/down if not reorderable
+      html = <<-CODE
+        <div class='widget widget-Repeater'>
+          #{@configs.join("\n")}
+          <a href='#' rel='repeater-add-item'>#{@t.icon(:plus_circle)} Add Item</a>
+          <div class='repeater-items'></div>
+          <div class='repeater-template repeater-item'>
+            #{@item_template}
+            <div class='repeater-item-controls'>
+              <a href='#' rel='repeater-item-move-up'>#{@t.icon(:arrow_090)} Up</a> |
+              <a href='#' rel='repeater-item-move-down'>#{@t.icon(:arrow_270)} Down</a> |
+              <a href='#' rel='repeater-item-delete'>#{@t.icon(:minus_circle)} Delete</a>
+            </div>
+          </div>
+        </div>
+      CODE
+      html.html_safe
+    end
+  end
+  
+  def repeater
+    builder = RepeaterBuilder.new(self)
+    yield builder if block_given?
+    builder.to_s
+  end
+  
 end
