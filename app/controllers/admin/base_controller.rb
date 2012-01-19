@@ -9,6 +9,7 @@ class Admin::BaseController < ApplicationController
   helper 'admin/base'
   helper 'admin/form'
   helper 'admin/list_view'
+  helper 'admin/widgets'
   helper 'edge/icon'
   helper 'edge/tiny_mce'
   
