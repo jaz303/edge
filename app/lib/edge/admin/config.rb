@@ -38,7 +38,7 @@ private
       m.section :main, 'Main', :admin_dashboard_path
     end
     add_module :cms, 'CMS' do |m|
-      
+      m.section :content, 'Content', :admin_nodes_url
     end
     add_module :system, 'System' do |m|
       m.section :admin_users, 'Users', :admin_admin_users_path

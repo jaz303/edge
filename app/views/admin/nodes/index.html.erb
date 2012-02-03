@@ -1,0 +1,45 @@
+<div class='tree-widget' id='site-content'>
+  <div class='_header'>
+    <div class='_title'>Title</div>
+    <div class='_actions'>
+      <a href='#' rel='expand-all'>Expand all</a> |
+      <a href='#' rel='contract-all'>Contract all</a> |
+      Filter: <input type='search' />
+    </div>
+    <div style='clear:both'></div>
+  </div>
+  <div class='_content-wrapper'>
+    <div class='_content'>
+      <ul>
+        <li class='_node'>
+          <div class='_item'>
+            <a class='_actuator _parent'></a> This is the item
+            <div style='clear:both'></div>
+          </div>
+          <ul>
+            <li class='_node'>
+              <div class='_item'>
+                <a class='_actuator _parent'></a> This is the item
+                <div style='clear:both'></div>
+              </div>
+            </li>
+            <li class='_node'>
+              <div class='_item'>
+                <a class='_actuator _parent'></a> This is the item
+                <div style='clear:both'></div>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script type='text/javascript'>
+  $(function() {
+    new DragWidget('#site-content', {
+      
+    });
+  });
+</script>

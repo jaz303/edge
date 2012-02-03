@@ -1,0 +1,126 @@
+.tree-widget {
+	
+	._header {
+		background: #343434;
+		color: white;
+		font-size: 11px;
+		font-weight: bold;
+		padding: 5px 8px;
+		-webkit-border-top-left-radius: 8px;
+		-webkit-border-top-right-radius: 8px;
+	}
+	
+	._title {
+		float: left;
+	}
+	
+	._actions {
+		float: right;
+		
+		a {
+			color: white;
+			text-decoration: none;
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+	
+	._content-wrapper {
+		position: relative;
+		height: 400px;
+		padding: 8px 5px; 
+		-webkit-background-size: 100% 350px;
+		background: -webkit-gradient(linear, left top, left bottom, from(#D0D1D1), to(#F8F8F8));
+		border: 1px solid #A0A0A0;
+		background-repeat: no-repeat;
+		background-color: #F8F8F8; border-top: none; 
+	}
+	
+	ul {
+		margin: 0; padding: 0;
+		ul {
+			padding-left: 21px;
+			display: none
+		}
+	}
+	
+	li {
+		padding: 0;
+		list-style: none;
+		display: block;
+	}
+	
+	._reorder-target {
+		height: 3px;
+		&.target-valid { background: #50AE63; }
+		&.target-invalid { background: #B45763; }
+	}
+	
+	._item {
+		padding: 3px 5px 3px 5px; 
+		cursor: pointer;
+		
+		&:hover {
+			-webkit-background-size: 100% 100%;
+			background: -webkit-gradient(linear, left top, left bottom, from(#e0e0e0), to(#f0f0f0));
+		}
+		
+		&._selected {
+			-webkit-background-size: 100% 100%;
+			background: -webkit-gradient(linear, left top, left bottom, from(#FFEFD2), to(#FDFDE6));
+		}
+		
+		&._target-valid {
+			background: #50AE63;
+		}
+		
+		&._target-invalid {
+			background: #B45763;
+		}
+		
+		._meta {
+			font-size: 11px;
+			color: #8A8080;
+		}
+		
+		._actuator {
+			width: 16px;
+			height: 16px;
+			float: left;
+			margin-right: 5px;
+			text-decoration: none;
+			
+			&._parent {
+				background-image: image-url("admin/tree-widget/tree-widget-parent.png");
+				&._expanded {
+					background-image: image-url("admin/tree-widget/tree-widget-parent-expanded.png");
+				}
+			}
+		}
+		
+	}
+	
+	._drag_ghost,
+	._drag_badge { position: absolute }
+	
+	._drag_ghost {
+		opacity: 0.8;
+		background: #c0c0c0;
+		padding: 2px 5px 5px 5px;
+		border: 1px solid #606060;
+		-webkit-box-shadow: 0 0 5px #808080;
+	}
+	
+	._drag_badge {
+		width: 31px;
+		height: 11px;
+		padding: 9px 0 11px 0;
+		background: image-url("admin/tree-widget-drag-badge.png");
+		color: white;
+		font-weight: bold;
+		font: bold 11px/1 Helvetica, sans-serif;
+		text-align: center;
+	}
+	
+}

@@ -49,8 +49,6 @@ Repeater = Widget.extend({
       for (var i = 0; i < this.config.data.length; i++) {
           this.addItem(this.config.data[i], false);
       }
-      
-      console.log(this.config);
     },
     
     bind: function() {

@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'acts_as_tree'
   s.add_dependency 'mini_magick'
   s.add_dependency 'paperclip', '~> 2.4'
+  s.add_dependency 'awesome_nested_set'
   
   bin     = Dir["bin/*"]
   db      = Dir["db/**/*.rb"]

@@ -2,5 +2,8 @@
 //= require ./jquery.rebind.js
 //= require ./classy.js
 //= require ./widgets/index.js
+
+//= require ./tree-widget/index.js
+
 //= require admin/edge.config.js
 //= require ./boot.js

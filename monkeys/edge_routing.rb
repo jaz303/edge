@@ -11,8 +11,9 @@ ActionDispatch::Routing::Mapper::Base.class_eval do
           member { get :logout }
         end
         
-        edge_admin_resources(:admin_users)
-        edge_admin_resources(:admin_groups)
+        edge_admin_resources :admin_users
+        edge_admin_resources :admin_groups
+        edge_admin_resources :nodes
         
         edge_admin_resources :file_folders
         edge_admin_resources :files
