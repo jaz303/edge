@@ -30,6 +30,11 @@ module Edge
   
   class Railtie < Rails::Engine
     
+    initializer 'edge.insert_flash_session_cookie_middleware' do |app|
+      app.config.middleware.insert_after 'ActionDispatch::Cookies',
+                                         Edge::Middleware::FlashSessionCookieMiddleware
+    end
+    
     initializer 'edge.kludge_paperclip_into_active_record' do
       ActiveSupport.on_load :active_record do
         require 'paperclip'

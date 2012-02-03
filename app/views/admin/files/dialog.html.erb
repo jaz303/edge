@@ -1,0 +1,68 @@
+<div class='asset-dialog'>
+
+  <div class='asset-dialog-toolbar'>
+    <div class='asset-dialog-toolbar-left'>
+      <ul class='asset-dialog-view-select'>
+        <li class='asset-dialog-button'><a class='asset-dialog-action-list-view' href='#' rel='ListView' title='List View'></a></li>
+        <li class='asset-dialog-button'><a class='asset-dialog-action-gallery-view' href='#' rel='GalleryView' title='Gallery View'></a></li>
+        <li class='asset-dialog-button'><a class='asset-dialog-action-detail-view' href='#' rel='DetailView' title='Detail View'></a></li>
+      </ul>
+      <ul>
+        <li class='asset-dialog-button asset-dialog-action-upload'><a href='#' title='Upload File(s)'></a></li>
+        <li class='asset-dialog-button asset-dialog-action-create-folder'><a href='#' title='Create Folder'></a></li>
+      </ul>
+      <ul>
+        <li class='asset-dialog-button asset-dialog-action-delete'><a href='#' title='Delete'></a></li>
+      	<li class='asset-dialog-button asset-dialog-action-move'><a href='#' title='Move'></a></li>
+			</ul>
+    </div>
+    <div style="clear:both"></div>
+  </div>
+
+  <ul class='asset-dialog-view-stack'>
+    
+    <li class='asset-dialog-view-stack-item asset-dialog-browser'>
+      <div class='asset-dialog-browser-sidebar'>
+        <dt>Places</dt>
+        <dd>
+          <ul>
+            <li><%= link_to(icon(:drive_network), '#') %> Asset Archive</li>
+          </ul>
+        </dd>
+        <dt>Search</dt>
+        <dd>
+          <ul>
+            <li><%= link_to(icon(:star) + ' Favourites', '#') %></li>
+            <li><%= link_to(icon(:clock) + ' Recent', '#') %></li>
+          </ul>
+        </dd>
+      </div>
+      <div class='asset-dialog-browser-contents'>
+        
+      </div>
+    </li>
+    
+    <li class='asset-dialog-view-stack-item asset-dialog-upload'>
+			<div class='inner'>
+				<div class='empty'>Upload queue is empty</div>
+				<ul class='upload-queue'>
+				</ul>
+			</div>
+			<p style='padding: 0 10px'><span id='swfupload-button'></span></p>
+    </li>
+    
+	<li class='asset-dialog-view-stack-item asset-dialog-editor'>
+		
+	</li>
+
+  </ul>
+  <div class='asset-dialog-status-bar'>
+    <div class='asset-dialog-status-bar-left'>
+    </div>
+    <div class='asset-dialog-status-bar-right'>
+      <input type='button' class='asset-dialog-action-select' value='Select' disabled='disabled' />
+    </div>
+    <div style='clear:both'></div>
+  </div>
+
+</div>

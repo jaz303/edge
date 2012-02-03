@@ -8,6 +8,10 @@
   <%= csrf_meta_tags %>
 
   <%= stylesheet_link_tag 'admin/main' %>
+  <%= stylesheet_link_tag 'admin/legacy/tipsy' %>
+  <%= stylesheet_link_tag 'admin/legacy/boxy' %>
+  <%= stylesheet_link_tag 'admin/legacy/asset-dialog' %>
+  
   <%= javascript_include_tag 'admin/index.js' %>
   <%= javascript_include_tag '/javascripts/tiny_mce/tiny_mce.js',
                              '/javascripts/tiny_mce/jquery.tinymce.js' %>
@@ -30,6 +34,12 @@
                              'admin/edge-widgets.js' %>
 -->
 
+  <script type='text/javascript' charset='utf-8'>
+    var EDGE_SESSION_KEY = <%= ::Rails.application.config.session_options[:key].to_json.html_safe %>;
+    var EDGE_SESSION_ID = <%= cookies[::Rails.application.config.session_options[:key]].to_json.html_safe %>;
+
+    <% yield :javascript %>
+  </script>
 </head>
 <body>
   <div id='container'>

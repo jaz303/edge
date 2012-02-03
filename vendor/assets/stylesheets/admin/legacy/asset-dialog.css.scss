@@ -1,0 +1,124 @@
+/* Asset Dialog */
+
+.asset-dialog { width: 640px; padding: 0 !important; }
+
+	.asset-dialog .asset-icon { width: auto; height: auto; background: none; border: none; }
+
+	.asset-dialog .asset-action-edit { display: block; width: 16px; height: 16px; background: image-url('ico_fugue_image_edit.png') no-repeat top left; text-indent: -10000px; }
+
+	.asset-dialog-toolbar { padding: 5px; border-bottom: 1px solid #8B8B8B; }
+		.asset-dialog-toolbar .asset-dialog-toolbar-left { float: left; }
+		.asset-dialog-toolbar .asset-dialog-toolbar-right { float: right; }
+		.asset-dialog-toolbar ul { margin: 0; padding: 0; float: left ;}
+		.asset-dialog-toolbar li { display: block; margin: 0; padding: 0; list-style: none; float: left; }
+		
+		.asset-dialog-button { display: block; width: 22px; height: 22px; background-repeat: no-repeat; background-position: center center; }
+			.asset-dialog-button a { display: block; width: 16px; height: 16px; padding: 3px; background-repeat: no-repeat; background-position: center center; }
+			.asset-dialog-selected-button { background-image: url(../../images/admin/asset-dialog-toolbar-selected.png); }
+			
+		.asset-dialog-action-list-view { background-image: image-url('ico_fugue_application_list.png'); }
+		.asset-dialog-action-gallery-view { background-image: image-url('ico_fugue_application_icon.png'); }
+		.asset-dialog-action-detail-view { background-image: image-url('ico_fugue_application_detail.png'); }
+		.asset-dialog-action-upload { background-image: image-url('ico_fugue_plus_circle.png'); }
+		.asset-dialog-action-create-folder { background-image: image-url('ico_fugue_blue_folder__plus.png'); }
+		.asset-dialog-action-delete { background-image: image-url('ico_fugue_minus_circle.png'); }
+		.asset-dialog-action-move { background-image: image-url('ico_fugue_arrow_switch.png'); }
+		
+		.asset-dialog-action-select { display: none; }
+
+	.asset-dialog-view-stack { height: 360px; margin: 0; padding: 0; position: relative; }
+		.asset-dialog-view-stack-item { height: 360px; width: 640px; position: absolute; top: 0; left: 0; display: none; }
+
+	.asset-dialog-browser-sidebar { width: 149px; padding: 5px; height: 350px; position: absolute; top: 0; left: 0; background-color: #d6dde5; color: black; border-right: 1px solid #8B8B8B; overflow: auto; }
+		.asset-dialog-browser-sidebar dt { margin: 0 0 4px 0; padding: 0; text-transform: uppercase; color: #606E80; font-weight: bold; }
+    .asset-dialog-browser-sidebar dd { margin: 0; padding: 0; display: block }
+    .asset-dialog-browser-sidebar ul { margin: 0 0 10px 10px; padding: 0; }
+    .asset-dialog-browser-sidebar li { margin: 0 0 2px 0; padding: 0; display: block; list-style: none; }
+    .asset-dialog-browser-sidebar a { }
+    .asset-dialog-browser-sidebar img.icon { vertical-align: middle; }
+    .asset-dialog-browser-sidebar .selected { font-weight: bold; }
+
+	.asset-dialog-browser-contents { position: absolute; left: 160px; top: 0; width: 470px; height: 350px; background: #f0f0f0; overflow: auto; padding: 5px; }
+		.asset-dialog-browser-contents p { margin: 0 0 0.7em 0; }
+	  .asset-dialog-browser-contents .thumb { display: block; border: 1px solid #909090; background-repeat: no-repeat; background-position: center center; background-color: white; }
+	  .asset-dialog-browser-contents .title { font-weight: bold; }
+	  .asset-dialog-browser-contents .meta { color: #808080; }
+	  .asset-dialog-browser-contents .description { color: #404040; }
+	
+		.asset-dialog-browser-contents .asset-dialog-entry { cursor: pointer; cursor: hand; }
+			.asset-dialog .asset-dialog-browser-contents .asset-dialog-entry:hover,
+			.asset-dialog .asset-dialog-browser-contents .selected { background: #e0e0e0 !important; }
+
+	.asset-dialog-browser-list-view { width: 100%; }
+		.asset-dialog-browser-list-view th,
+		.asset-dialog-browser-list-view td { padding: 2px; }
+		.asset-dialog-browser-list-view th { font-weight: bold; }
+		.asset-dialog-browser-list-view td { vertical-align: middle; }
+		.asset-dialog-browser-list-view .asset-dialog-entry { }
+				
+		.asset-dialog-browser-list-view .asset-checkbox,
+		.asset-dialog-browser-list-view .asset-icon { width: 16px; text-align: middle; }
+		.asset-dialog-browser-list-view .asset-filesize { text-align: right; }
+		.asset-dialog-browser-list-view .asset-row-odd { background: #d0d0d0 }
+		.asset-dialog-browser-list-view .asset-row-even { background: #c0c0c0; }
+	
+  .asset-dialog-browser-gallery-view { width: 100%; font-size: 90%; }
+    .asset-dialog-browser-gallery-view td { width: 16%; padding: 5px; text-align: center; vertical-align: top; }
+    .asset-dialog-browser-gallery-view .thumb { width: 50px; height: 50px; margin: 0 auto; position: relative; }
+		.asset-dialog-browser-gallery-view .thumb .type-icon { width: 16px; height: 16px; position: absolute; top: 3px; right: 3px; }
+		
+	.asset-dialog-browser-detail-view {}
+		.asset-dialog-browser-detail-view ul { margin: 0; padding: 0; font-size: 90%; }
+	  .asset-dialog-browser-detail-view li { margin: 0; padding: 5px; display: block; list-style: none; }
+	  .asset-dialog-browser-detail-view .thumb { width: 80px; height: 80px; float: left; position: relative; }
+		.asset-dialog-browser-detail-view .thumb .type-icon { width: 16px; height: 16px; position: absolute; top: 3px; right: 3px; }
+	  .asset-dialog-browser-detail-view .details { margin-left: 90px; }
+
+.asset-dialog-upload { }
+	.asset-dialog-upload .inner { margin: 10px; padding: 10px; background-color: #f0f0f0; width: 600px; height: 290px; position: relative; }
+		.asset-dialog-upload .inner .empty { font-size: 150%; color: #fff; text-align: center; position: absolute; top: 0; left: 0; line-height: 310px; width: 620px; }
+		.asset-dialog-upload .inner .upload-queue { position: absolute; top: 0; left: 0; width: 580px; height: 270px; padding: 10px 20px 10px 20px; overflow: auto; }
+			.asset-dialog-upload .inner .upload-queue li { position: relative; border-bottom: 1px solid #afafaf; padding-bottom: 10px; margin-bottom: 10px; }
+			.asset-dialog-upload .inner .upload-queue li .file-name { margin-bottom: 8px; float: left; }
+			.asset-dialog-upload .inner .upload-queue li .actions { position: absolute; top: 0; right: 0; }
+				.asset-dialog-upload .inner .upload-queue li .actions a { float: left; }
+				.asset-dialog-upload .inner .upload-queue li .actions .edit { }
+				.asset-dialog-upload .inner .upload-queue li .actions .dismiss { margin-right: 2px; text-indent: -10000px; display: block; width: 16px; height: 16px; background: image-url('ico_fugue_cross.png') no-repeat top left; }
+			.asset-dialog-upload .inner .upload-queue li .progress { clear: both; height: 15px; }
+				.asset-dialog-upload .inner .upload-queue li .progress .marker { background: url(../../images/admin/progress.png) no-repeat top left; width: 0; height: 15px; }
+
+.asset-dialog-editor { }
+	.asset-dialog-editor .fi { clear: left; margin-bottom: 10px; }
+	.asset-dialog-editor .fi label { display: block; float: left; width: 150px; }
+	.asset-dialog-editor .fi input,
+	.asset-dialog-editor .fi textarea { display: block; float: left; }
+	.asset-dialog-editor .fi input { width: 200px; }
+	.asset-dialog-editor .fi textarea { height: auto; width: 250px; }
+	
+	.asset-dialog-editor .inner { }
+		.asset-dialog-editor .tabular-form { padding: 20px; width: 400px; float: left; }
+		.asset-dialog-editor .files { padding: 20px; width: 60px; background-color: #afafaf; float: right; height: 320px; }	
+			.asset-dialog-editor .files label { display: block; margin-bottom: 5px; }
+			.asset-dialog-editor .files .thumb { margin-bottom: 10px; width: 50px; height: 50px; background-color: #E9E9E9; background-position: center; background-repeat: no-repeat; }
+			.asset-dialog-editor .files > div { margin-bottom: 20px; }
+		
+	.asset-dialog-status-bar { padding: 5px; border-top: 1px solid #8B8B8B; }
+		.asset-dialog-status-bar-left { float: left; }
+			.asset-dialog-status-bar-left .asset-dialog-entry { display: block; float: left; padding-left: 20px; background-repeat: no-repeat; margin-right: 5px; cursor: pointer; cursor: hand; }
+		.asset-dialog-status-bar-right { float: right; }
+	
+/* Dialogs */
+
+#dialog_content { padding: 10px; }
+#dialog_buttons input { font-size: 9px; }
+
+#dialog_container th { padding: 0 7px; background-color: #4F73AB; color: white; background-repeat: repeat-x; }
+#dialog_container tr.header th { text-align: left; font-size: 12px;  background-image: url(../../images/admin/grd_tab.gif); background-position: top; vertical-align: middle; }
+#dialog_container tr.footer th { text-align: right; background-image: url(../../images/admin/grd_footer.gif); background-position: bottom; vertical-align: middle; }
+
+.asset-input { }
+	.asset-input .asset-icon { float: left; margin-right: 5px; }
+
+.multi-asset-input { }
+	.multi-asset-input tfoot { display: none; }
+	.multi-asset-input .actions { padding: 5px; }

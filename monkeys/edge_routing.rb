@@ -7,6 +7,8 @@ ActionDispatch::Routing::Mapper::Base.class_eval do
           match 'admin' => 'dashboard#main', :as => 'admin_dashboard'
         end
         
+        match "admin/files(/:action(/:id))" => "admin/files"
+        
         edge_admin_resource(:session) do
           member { get :logout }
         end
