@@ -86,7 +86,10 @@
     },
     
     asset: function(tpl, ele) {
-      $(ele).click(function() {
+      var input     = $('input[type=hidden]', ele),
+          actuator  = $('a', ele);
+      
+      actuator.click(function() {
         AssetDialog.select(function(asset) {
           $(ele).text(asset.fileName + ' (click to change)');
         });
@@ -94,8 +97,19 @@
       });
       
       return {
-        get: function() { return null; },
-        set: function(val) { }
+        get: function() {
+          var assetId = input.val() || null;
+          return assetId ? {_type: 'asset', id: assetId} : null;
+        },
+        set: function(val) {
+          if ('object' == typeof val) {
+            input.val(val.id);
+          } else if (val) {
+            input.val(val);
+          } else {
+            input.val('');
+          }
+        }
       }
     },
     
@@ -162,7 +176,9 @@
         },
         
         set: function(val) {
-          
+          for (var i = 0; i < val.length; i++) {
+            
+          }
         }
       };
     },
@@ -270,6 +286,10 @@
         return serialized;
       },
       
+      unserialize: function(data) {
+        this._unserialize(data);
+      },
+      
       isAttached: function() {
         if (!this._rootElement) return false;
         var ele = this._rootElement;
@@ -309,6 +329,12 @@
           out[getFieldName(ele)] = getDataObject(ele).get();
         });
         return out;
+      },
+      
+      _unserialize: function(data) {
+        this._walkAttribute(DISCO_FIELD_TYPE_KEY, function(ele, attr, fieldType) {
+          getDataObject(ele).set(data[getFieldName(ele)]);
+        });
       },
       
       _create: function() {
@@ -391,7 +417,8 @@
     },
     
     openDocument: function(serializedData) {
-      
+      this.newDocument(serializedData._type);
+      this._rootTemplate.unserialize(serializedData);
     },
     
     serializeDocument: function() {

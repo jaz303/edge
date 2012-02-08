@@ -43,6 +43,7 @@ module Admin::FormHelper
   
   class BaseFormBuilder < ::ActionView::Helpers::FormBuilder
     VISIBLE_FIELD_HELPERS = {
+      :asset_field                => 1,
       :check_box                  => 1,
       :collection_select          => 4,
       :date_select                => 1,
@@ -70,6 +71,10 @@ module Admin::FormHelper
       html_options[:class] ||= ''
       html_options[:class] << " #{form_class}"
       super
+    end
+    
+    def asset_field(method, options = {})
+      @template.asset_input("#{@object_name}[#{@method}]", @object.send(method))
     end
     
     def form_class

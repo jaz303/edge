@@ -7,8 +7,6 @@ ActionDispatch::Routing::Mapper::Base.class_eval do
           match 'admin' => 'dashboard#main', :as => 'admin_dashboard'
         end
         
-        match "admin/files(/:action(/:id))" => "admin/files"
-        
         edge_admin_resource(:session) do
           member { get :logout }
         end
@@ -17,8 +15,16 @@ ActionDispatch::Routing::Mapper::Base.class_eval do
         edge_admin_resources :admin_groups
         edge_admin_resources :nodes
         
-        edge_admin_resources :file_folders
-        edge_admin_resources :files
+        namespace :admin do
+          match 'file_manager/list'               => 'file_manager#list',           :via => :get
+          match 'file_manager/folder_list'        => 'file_manager#folder_list',    :via => :get
+          match 'file_manager/delete'             => 'file_manager#delete',         :via => :post
+          match 'file_manager/move'               => 'file_manager#move',           :via => :post
+          match 'file_manager/create_file'        => 'file_manager#create_file',    :via => :post
+          match 'file_manager/create_folder'      => 'file_manager#create_folder',  :via => :post
+          match 'file_manager/update_file/:id'    => 'file_manager#update_file',    :via => :post
+          match 'file_manager/update_folder/:id'  => 'file_manager#update_folder',  :via => :post
+        end
       when :assets
         match 'files/show/:id(/:profile)'  => 'files#show',     :id => /\d+/, :profile => 'default', :as => 'file'
         match 'files/thumb/:id(/:profile)' => 'files#thumb',    :id => /\d+/, :profile => 'default', :as => 'file_thumb'
