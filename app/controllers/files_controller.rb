@@ -1,17 +1,20 @@
 class FilesController < ApplicationController
   caches_page :show, :if => lambda { |c| c.instance_variable_get("@image") }
     
-  def show;         do_show;                            end
-  def thumb;        do_show(:thumb => true);            end
-  def download;     do_show(:download => true);         end
+  def show;         do_show(:original);                     end
+  def thumb;        do_show(:thumb);                        end
+  def download;     do_show(:original, :download => true);  end
   
 private
   
-  def do_show(options = {})
-    options = {:thumb => false, :download => false}.update(options)
-    @file = File.find(params[:id])
+  def do_show(type, options = {})
+    @file, @image = UploadedFile.find(params[:id]), @file.web_safe_image?
     
-    if options[:thumb]
+    if type == :thumb && @file.thumbnail.path.blank? && @image
+      type = :original
+    end
+    
+    if type == :thumb
       s_path = @file.thumbnail.path
       s_file = @file.thumbnail_file_name
       s_type = @file.thumbnail_content_type
@@ -22,13 +25,10 @@ private
     end
     
     unless s_path.present?
-      # TODO: 404
-      raise "asset not found"
+      raise ActionController::RoutingError, 'File not found'
     end
     
     s_disposition = (options[:download] || !@file.inline?) ? 'attachment' : 'inline'
-    
-    @image = @file.web_safe_image?
     
     if params[:profile] == 'default' || !@image
       send_file(s_path, :filename => s_file, :type => s_type, :disposition  => s_disposition)

@@ -1,40 +1,60 @@
 AssetInput = Widget.extend({
   methods: {
     setup: function() {
-      var $input    = $('input', this.root),
-          $icon     = $('._icon', this.root),
-          $caption  = $('._caption', this.root),
-          existing  = $(this.root).data('asset');
-          
-      function removeAsset() {
-        $input.val('');
-        $icon.css('backgroundImage', 'none');
-        $caption.text('(no file selected)');
-      }
-          
-      function setAsset(asset) {
-        if (!asset) {
-          removeAsset();
-        } else {
-          $input.val(asset.getID());
-          $icon.css('backgroundImage', 'url(' + asset.getPreviewImageURL('small') + ')');
-          $caption.text(asset.getName());
-        }
-      }
+      this.$input   = $('input', this.root);
+      this.$icon    = $('._icon', this.root);
+      this.$caption = $('._caption', this.root);
+      
+      var existing  = $(this.root).data('asset'),
+          self      = this;
       
       if (existing) {
-        setAsset(AssetDialog.DELEGATE.jsonToEntry(existing));
+        this.setValue(AssetDialog.DELEGATE.jsonToEntry(existing));
       } else {
-        removeAsset();
+        this._removeAsset();
       }
       
       $('a[rel=change]', this.root).click(function() {
-        AssetDialog.select(setAsset);
+        AssetDialog.select(function(asset) { self.setValue(asset); });
       });
       
       $('a[rel=remove]', this.root).click(function() {
-        removeAsset();
+        self._removeAsset();
       });
+    },
+    
+    getName: function() {
+      return this.$input.attr('name');
+    },
+    
+    getValue: function() {
+      return this._asset;
+    },
+    
+    setValue: function(asset) {
+      if (!asset) {
+        this._removeAsset();
+      } else {
+        this.$input.val(asset.getID());
+        this.$icon.css('backgroundImage', 'url(' + asset.getPreviewImageURL('small') + ')');
+        this.$caption.text(asset.getName());
+        this._asset = asset;
+      }
+    },
+    
+    serializeValue: function() {
+      
+    },
+    
+    unserializeValue: function(v) {
+      
+    },
+    
+    _removeAsset: function() {
+      this.$input.val('');
+      this.$icon.css('backgroundImage', 'none');
+      this.$caption.text('(no file selected)');
+      this._asset = null;
     }
   }
 });

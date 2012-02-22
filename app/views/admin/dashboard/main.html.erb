@@ -1,4 +1,164 @@
-<%= asset_input 'test_asset', nil %>
+<div class='widget widget-TabBar'>
+  <ul class='tab-bar'>
+    <li><a href='#'>Header</a></li>
+    <li><a href='#'>Component</a></li>
+    <li><a href='#'>Attractor</a></li>
+    <li><a href='#'>Case Studies</a></li>
+  </ul>
+  <div class='panel'>
+    
+    <div class='content-section content-region _item _full'>
+      <div class='_item _full'>
+        <label>Title:</label>
+        <input type='text' name='title' class='_block' />
+      </div>
+      <div class='_item _full'>
+        <label>Content:</label>
+        <textarea name='content' class='_block'></textarea>
+      </div>
+      <div class='_item _full'>
+        <label>Media:</label>
+        <ul class='_media'>
+          <li>
+            <div class='_media-item _image'>
+              <%= asset_input 'image' %>
+              <div class='c'></div>
+            </div>
+          </li>
+          <li>
+            <div class='_media-item _video'>
+              <%= asset_input 'video' %>
+              <%= asset_input 'thumb' %>
+              <div class='c'></div>
+              <h3 class='_subtitle'>
+                Cue Points
+                <a href='#' class='_title-link'><%= icon(:plus_circle) %> add a cue point</a>
+              </h3>
+              <ul class='_cue-points'>
+                <li>
+                  <div>
+                    <input type='text' name='time' placeholder='Time' size='6' />
+                    <input type='text' name='id' placeholder='ID' size='20' />
+                    <input type='text' name='caption' placeholder='Caption' size='50' />
+                    <a href='#'><%= icon(:cross_circle) %></a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+        <a href='#'><%= icon(:plus_circle) %> Add media item</a>
+      </div>
+      <div class='_item _full'>
+        <label>Visibility:</label>
+        <ul class='_checkboxes'>
+          <li><input type='checkbox' value='standard'> Standard</li>
+          <li><input type='checkbox' value='standard'> VIP</li>
+        </ul>
+      </div>
+      <div class='c'></div>
+    </div>
+    
+  </div>
+  <div class='panel'>
+    
+    <div class='content-section content-region _item _full'>
+      <div class='_item _full'>
+        <label>Title:</label>
+        <input type='text' name='title' class='_block' />
+      </div>
+      <div class='_item _full'>
+        <label>Content:</label>
+        <textarea name='content' class='_block'></textarea>
+      </div>
+      <div class='c'></div>
+    </div>
+    
+  </div>
+  <div class='panel'>
+    
+    <div class='content-section content-region _item _full'>
+      <div class='_item _full'>
+        <label>Title:</label>
+        <input type='text' name='title' class='_block' />
+      </div>
+      <div class='_item _full'>
+        <label>Content:</label>
+        <textarea name='content' class='_block'></textarea>
+      </div>
+      <div class='c'></div>
+    </div>
+    
+  </div>
+  <div class='panel'>
+    
+    <div class='content-case-studies content-region'>
+      
+      <div class='content-case-study _item _full'>
+        
+        <h2 class='_title _item _full'>Case Study</h2>
+        
+        <div class='content-case-study-header _item _full'>
+          <div class='_item _full'>
+            <label>Title:</label>
+            <input type='text' name='title' class='_block' />
+          </div>
+          <div class='_item _full'>
+            <label>Label:</label>
+            <input type='text' name='label' class='_block' />
+          </div>
+          <div class='_item _third'>
+            <label>Location:</label>
+            <input type='text' name='location' class='_block' />
+          </div>
+          <div class='_item _third'>
+            <label>Latitude:</label>
+            <input type='text' name='latitude' class='_block' />
+          </div>
+          <div class='_item _third _last'>
+            <label>Longitude:</label>
+            <input type='text' name='longitude' class='_block' />
+          </div>
+          <div class='c'></div>
+        </div>
+        
+        <div class='content-section content-region _item _full'>
+          <div class='_item _full'>
+            <label>Title:</label>
+            <input type='text' name='title' class='_block' />
+          </div>
+          <div class='_item _full'>
+            <label>Content:</label>
+            <textarea name='content' class='_block'></textarea>
+          </div>
+          <div class='_item _full'>
+            <label>Visibility:</label>
+            <ul class='_checkboxes'>
+              <li><input type='checkbox' value='standard'> Standard</li>
+              <li><input type='checkbox' value='standard'> VIP</li>
+            </ul>
+          </div>
+          <div class='c'></div>
+        </div>
+        
+        <div class='content-section content-region _item _full'>
+          <div class='_item _full'>
+            <label>Title:</label>
+            <input type='text' name='title' class='_block' />
+          </div>
+          <div class='_item _full'>
+            <label>Content:</label>
+            <textarea name='content' class='_block'></textarea>
+          </div>
+          <div class='c'></div>
+        </div>
+        
+      </div>
+      
+    </div>
+    
+  </div>
+</div>
 
 <!--
 

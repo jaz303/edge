@@ -123,12 +123,37 @@ table.list {
 }
 
 
-
-
-
-
-
-
+.tab-bar {
+	border-bottom		: 1px solid #4F73AB;
+	margin					: 5px 0;
+	padding-bottom	: 22px;
+	
+	ul, li {
+		display					: inline;
+		list-style-type	: none;
+		margin					: 0;
+		padding					: 0;
+	}
+	
+	a {
+		@include vertical-gradient($gradient_light, $gradient_dark);
+		
+		color				: white;
+		font-size		: 11px;
+		line-height	: 11px;
+		padding			: 5px 10px;
+		float				: left;
+		margin			: 0 10px 0 0;
+		border			: 1px solid #4F73AB;
+	}
+	
+	li.selected a {
+		border-bottom-color: white;
+		background: white;
+		font-weight: bold;
+		color: #4F73AB;
+	}
+}
 
 button  {
 	font-size: 11px;

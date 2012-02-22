@@ -325,25 +325,42 @@
       
       _serialize: function() {
         var out = {};
-        this._walkAttribute(DISCO_FIELD_TYPE_KEY, function(ele, attr, fieldType) {
-          out[getFieldName(ele)] = getDataObject(ele).get();
+        this._walkValueNodes({
+          onField: function(ele, fieldType) {
+            out[getFieldName(ele)] = getDataObject(ele).get();
+          },
+          onWidget: function(ele, widget) {
+            out[widget.getName()] = widget.serializeValue();
+          }
         });
         return out;
       },
       
       _unserialize: function(data) {
-        this._walkAttribute(DISCO_FIELD_TYPE_KEY, function(ele, attr, fieldType) {
-          getDataObject(ele).set(data[getFieldName(ele)]);
+        this._walkValueNodes({
+          onField: function(ele, fieldType) {
+            getDataObject(ele).set(data[getFieldName(ele)]);
+          },
+          onWidget: function(ele, widget) {
+            widget.unserializeValue(data[widget.getName()]);
+          }
         });
       },
       
       _create: function() {
         var self = this;
         
-        this._root = this._createHTML();
+        this._root        = this._createHTML();
         this._rootElement = this._root[0];
-        this._walkAttribute(DISCO_FIELD_TYPE_KEY, function(ele, attr, fieldType) {
-          $(ele).data(DISCO_DATA_OBJECT_KEY, getDataType(fieldType).call(null, self, ele));
+        
+        this._walkChildNodes(function(ele) {
+          var widgetClass = Widget.nameForClass(ele.className),
+              fieldType   = ele.getAttribute(DISCO_FIELD_TYPE_KEY);
+          if (widgetClass) {
+            Widget.initializeOne(ele);
+          } else if (fieldType) {
+            $(ele).data(DISCO_DATA_OBJECT_KEY, getDataType(fieldType).call(null, self, ele));
+          }
         });
       },
       
@@ -368,19 +385,19 @@
         walkChildTemplates(this._rootElement, callback);
       },
       
-      // walks children of template's root node, invoking callback for every
-      // child element which has any of a given set of attributes.
-      // does not stray into elements owned by a sub-template.
-      // this._walkAttribute('data-disco-field-type', function(ele, attr, val) { ... })
-      _walkAttribute: function(args) {
-        var attrs = Array.prototype.slice.call(arguments, 0, -1),
-            fn    = arguments[arguments.length - 1];
+      // walk all child nodes representing data containers.
+      // data containers are either disco built-in types, or Widget instances.
+      _walkValueNodes: function(options) {
+        var onField   = options.onField || function() {},
+            onWidget  = options.onWidget || function() {};
         
         this._walkChildNodes(function(ele) {
-          for (var i = 0; i < attrs.length; i++) {
-            var key = attrs[i], val = ele.getAttribute(key);
+          if (Widget.elementIsInputWidget(ele)) {
+            onWidget(ele, Widget.widgetForElement(ele));
+          } else {
+            var val = ele.getAttribute(DISCO_FIELD_TYPE_KEY);
             if (val) {
-              fn.call(null, ele, key, val);
+              onField(ele, val);
             }
           }
         });

@@ -35,11 +35,41 @@ Widget = Class.extend({
      */
     dispose: function() {},
     
+    /**
+     * Returns true if this widget is an input
+     */
+    isInput: function() { return false; },
+    
     _extractConfig: function() {
       return Widget.getConfig(this.root);
     }
   }
 });
+
+Widget.Input = Widget.extend({
+  methods: {
+    isInput           : function() { return true; },
+    
+    getName           : function() { throw "implement me"; },
+    getValue          : function() { throw "implement me"; },
+    setValue          : function(v) { throw "implement me"; },
+    serializeValue    : function() { return this.getValue(); },
+    unserializeValue  : function(v) { this.setValue(v); }
+  }
+});
+
+Widget.elementIsWidget = function(ele) {
+  return !! $.data(ele, 'widget');
+};
+
+Widget.elementIsInputWidget = function(ele) {
+  var w = $.data(ele, 'widget');
+  return w && w.isInput();
+};
+
+Widget.widgetForElement = function(ele) {
+  return $.data(ele, 'widget');
+};
 
 /**
  * Returns the widget wrapping a given element.
@@ -47,12 +77,13 @@ Widget = Class.extend({
  * (or, more accurately, that has a data key 'widget')
  */
 Widget.get = function(ele) {
-    var w = null;
-    while (ele) {
-        if (w = $.data(ele, 'widget')) break;
-        ele = ele.parentNode;
-    }
-    return w;
+  var w = null;
+  while (ele) {
+    w = Widget.widgetForElement(ele);
+    if (w) break;
+    ele = ele.parentNode;
+  }
+  return w;
 };
 
 Widget.classForName = function(widgetName) {

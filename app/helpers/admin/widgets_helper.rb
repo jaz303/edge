@@ -10,7 +10,9 @@ module Admin::WidgetsHelper
   #
   # Asset input
   
-  def asset_input(name, asset = nil)
+  def asset_input(name, asset = nil, options = {})
+    
+    
     html  = "<div class='widget widget-AssetInput' data-asset='#{h(asset.to_json) if asset}'>\n"
     html << "  <div class='_icon'></div>"
     html << "  <span class='_caption'></span><br>"
