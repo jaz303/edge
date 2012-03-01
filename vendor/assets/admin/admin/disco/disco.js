@@ -16,6 +16,11 @@
     console.log.apply(console, arguments);
   }
   
+  function isNodeInDOM(ele) {
+    while (ele.parentNode) ele = ele.parentNode;
+    return !! ele.body;
+  }
+  
   function getFieldName(ele) {
     var name = ele.getAttribute('name') || ele.getAttribute('data-disco-field-name');
     if (!name) throw "couldn't get name for element";
@@ -44,15 +49,19 @@
     return !! getTemplate(ele);
   }
   
+  // walk node tree, without straying into subtree owned by another
+  // template. callback can return `false` to prevent its own children
+  // from being explore
   function walkChildNodes(root, fn) {
     var stack = [root];
     while (stack.length) {
       var curr = stack.pop();
       if (curr.nodeType != 1) continue;
-      fn.call(null, curr);
-      for (i = 0; i < curr.childNodes.length; i++) {
-        if (!isTemplate(curr.childNodes[i])) {
-          stack.push(curr.childNodes[i]);
+      if (fn.call(null, curr) !== false) {
+        for (i = 0; i < curr.childNodes.length; i++) {
+          if (!isTemplate(curr.childNodes[i])) {
+            stack.push(curr.childNodes[i]);
+          }
         }
       }
     }
@@ -78,12 +87,19 @@
   // Data types
   
   var dataTypes = {
+    
+    //
+    // Value - works with standard HTML inputs
+    
     value: function(tpl, ele) {
       return {
         get: function() { return $(ele).val(); },
         set: function(val) { $(ele).val(val); }
       }
     },
+    
+    //
+    // Asset - integrates with file manager
     
     asset: function(tpl, ele) {
       var input     = $('input[type=hidden]', ele),
@@ -113,6 +129,29 @@
       }
     },
     
+    //
+    // Include - inserts another template in-place
+    
+    include: function(tpl, ele) {
+      var context       = tpl.getContext(),
+          templateClass = context.getTemplate(ele.getAttribute('data-disco-include-template-type')),
+          template      = new templateClass(context);
+      
+      template.appendTo(ele);
+      
+      return {
+        get: function() {
+          return template.serialize();
+        },
+        set: function(val) {
+          template.unserialize(val);
+        }
+      };
+    },
+    
+    //
+    // Children - manages an array of child templates (of potentially different types)
+    
     children: function(tpl, ele) {
       var container = $('[' + DISCO_CONTAINER_KEY + ']', ele),
           whenEmpty = $('[' + DISCO_EMPTY_CHILDREN_KEY + ']', ele).remove(),
@@ -129,41 +168,64 @@
       container.html(whenEmpty.length ? whenEmpty : '');
       
       $ele.on('click', 'a[rel=' + DISCO_ACTION_ADD_CHILD + ']', function(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
         
-        var context   = tpl.getContext(),
-            choices   = [];
+        var context   = tpl.getContext();
             
-        for (var i = 0; i < allowedTypes.length; i++) {
-          var klass = context.getTemplate(allowedTypes[i]);
-          choices.push([klass.getTitle(), klass.getType()]);
+        function doAddChild(klass) {
+          var template = new klass(context);
+          whenEmpty.remove();
+          var target = container;
+          if (wrapper.length) {
+            target = wrapper.clone();
+            target.data('disco-child-guard', template);
+            target.appendTo(container);
+          } else {
+            template.getRoot().data('disco-child-guard', template);
+          }
+          template.appendTo(target);
         }
         
-        Boxy.select('Select the type of object to add:', choices, {
-          confirm: function(type) {
-            var klass     = context.getTemplate(type),
-                template  = new klass(context);
-            
-            whenEmpty.remove();
-
-            var target = container;
-            if (wrapper.length) {
-              target = wrapper.clone();
-              target.appendTo(container);
-            }
-
-            template.appendTo(target);
+        if (allowedTypes.length == 1) {
+          doAddChild(context.getTemplate(allowedTypes[0]));
+        } else {
+          var choices = [];
+          
+          for (var i = 0; i < allowedTypes.length; i++) {
+            var klass = context.getTemplate(allowedTypes[i]);
+            choices.push([klass.getTitle(), klass.getType()]);
           }
-        });
-        
-        return false;
-      
+          
+          Boxy.select('Select the type of object to add:', choices, {
+            confirm: function(type) {
+              doAddChild(context.getTemplate(type));
+            }
+          });
+        }
       });
       
       $ele.on('click', 'a[rel=' + DISCO_ACTION_DELETE_CHILD + ']', function(evt) {
-        getTemplate(evt.target).remove();
-        if (container.childNodes.length == 0) {
-          whenEmpty.appendTo(container);
-        }
+        evt.stopPropagation();
+        evt.preventDefault();
+        
+        var ele = evt.target;
+        do {
+          var childGuard = $.data(ele, 'disco-child-guard');
+          if (childGuard) {
+            childGuard.remove();
+            $.data(ele, 'disco-child-guard', null);
+            if (ele.parentNode) {
+              ele.parentNode.removeChild(ele);
+            }
+            if ($('> *', container).length == 0) {
+              whenEmpty.appendTo(container);
+            }
+            break;
+          } else {
+            ele = ele.parentNode;
+          }
+        } while (ele);
       });
       
       return {
@@ -182,19 +244,28 @@
         }
       };
     },
+    
+    //
+    // Manages an array of checkboxes
 
     checkboxes: function(tpl, ele) {
       return {
         get: function() {
           var out = {};
           $('input[type=checkbox]', ele).each(function() {
-            out[this.getAttribute('name')] = !!this.checked;
+            out[this.getAttribute('value')] = !!this.checked;
           });
           return out;
         },
         
         set: function(val) {
-          
+          var inputs = {};
+          $('input[type=checkbox]', ele).each(function() {
+            inputs[this.getAttribute('value')] = this;
+          });
+          for (var k in val) {
+            inputs[k].checked = val;
+          }
         }
       }
     }
@@ -263,7 +334,6 @@
     methods: {
       init: function(context) {
         this._context = context;
-        this._wasAttached = false;
       },
       
       getContext: function() {
@@ -275,6 +345,7 @@
         return this._class.getType();
       },
       
+      // Returns jQuery object wrapping root element
       getRoot: function() {
         if (!this._root) this._create();
         return this._root;
@@ -292,11 +363,7 @@
       
       isAttached: function() {
         if (!this._rootElement) return false;
-        var ele = this._rootElement;
-        while (ele && ele.nodeName.toLowerCase() != 'body') {
-          ele = ele.parentNode;
-        }
-        return !!ele;
+        return isNodeInDOM(this._rootElement);
       },
       
       remove: function() {
@@ -308,19 +375,28 @@
       },
       
       appendTo: function(target) {
-        var root = this.getRoot(); // force root to be created
+        var target      = target.nodeType ? target : target[0],
+            root        = this.getRoot(), // force root to be created
+            targetInDOM = isNodeInDOM(target);
+            
         this.remove();
-        this._broadcastDown('_willAttach', !!this._wasAttached);
+        
+        if (targetInDOM) this._broadcastDown('_willAttach');
         root.appendTo(target);
-        this._broadcastDown('_didAttach', !!this._wasAttached);
-        this._wasAttached = true;
+        if (targetInDOM) this._broadcastDown('_didAttach');
       },
       
+      // call a named method on this and all descendant templates
+      // additional args are passed on too.
       _broadcastDown: function(method) {
-        this[method].apply(this, Array.prototype.slice.call(arguments, 1));
-        this._walkChildTemplates(function(tpl) {
-          tpl._broadcastDown.apply(tpl, arguments);
-        });
+        var args = Array.prototype.slice.call(arguments, 1),
+            tpls = [this];
+            
+        while (tpls.length) {
+          var tpl = tpls.shift();
+          tpl[method].apply(tpl, args);
+          tpl._walkChildTemplates(function(t) { tpls.push(t); });
+        }
       },
       
       _serialize: function() {
@@ -353,13 +429,18 @@
         this._root        = this._createHTML();
         this._rootElement = this._root[0];
         
-        this._walkChildNodes(function(ele) {
+        walkChildNodes(this._rootElement, function(ele) {
           var widgetClass = Widget.nameForClass(ele.className),
               fieldType   = ele.getAttribute(DISCO_FIELD_TYPE_KEY);
+          
           if (widgetClass) {
-            Widget.initializeOne(ele);
+            var widget = Widget.initializeOne(ele);
+            if (widget.isInput()) {
+              return false;
+            }
           } else if (fieldType) {
             $(ele).data(DISCO_DATA_OBJECT_KEY, getDataType(fieldType).call(null, self, ele));
+            return false;
           }
         });
       },
@@ -370,8 +451,8 @@
         return clone;
       },
       
-      _willAttach: function(firstTime) {},
-      _didAttach: function(firstTime) {},
+      _willAttach: function() {},
+      _didAttach: function() {},
       _willDetach: function() {},
       _didDetach: function() {},
       
@@ -452,11 +533,31 @@
   };
   
   //
+  // Pluck templates from DOM
+  
+  var pluckedTemplates = [];
+  
+  function pluckTemplates(context) {
+    context = context || document.body;
+    pluckedTemplates = $('.disco-template').remove();
+  };
+  
+  function createDefaultContext() {
+    var discoContext = new Context();
+    for (var i = 0; i < pluckedTemplates.length; i++) {
+      discoContext.addTemplates(pluckedTemplates[i]);
+    }
+    return discoContext;
+  };
+  
+  //
   //
   
   exports.disco = {
-    Context     : Context,
-    Editor      : Editor
+    Context               : Context,
+    Editor                : Editor,
+    pluckTemplates        : pluckTemplates,
+    createDefaultContext  : createDefaultContext
   };
   
 })(this, jQuery);

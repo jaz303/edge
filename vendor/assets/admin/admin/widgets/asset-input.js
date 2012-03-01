@@ -1,12 +1,13 @@
-AssetInput = Widget.extend({
+AssetInput = Widget.Input.extend({
   methods: {
     setup: function() {
-      this.$input   = $('input', this.root);
-      this.$icon    = $('._icon', this.root);
-      this.$caption = $('._caption', this.root);
+      this.$input     = $('input', this.root);
+      this.$icon      = $('._icon', this.root);
+      this.$caption   = $('._caption', this.root);
+      this.emptyText  = this.$caption.text();
       
-      var existing  = $(this.root).data('asset'),
-          self      = this;
+      var existing    = $(this.root).data('asset'),
+          self        = this;
       
       if (existing) {
         this.setValue(AssetDialog.DELEGATE.jsonToEntry(existing));
@@ -43,7 +44,12 @@ AssetInput = Widget.extend({
     },
     
     serializeValue: function() {
-      
+      var val = this.getValue();
+      if (val) {
+        return {'__file__': val.getID()};
+      } else {
+        return {'__file__': null};
+      }
     },
     
     unserializeValue: function(v) {
@@ -53,7 +59,7 @@ AssetInput = Widget.extend({
     _removeAsset: function() {
       this.$input.val('');
       this.$icon.css('backgroundImage', 'none');
-      this.$caption.text('(no file selected)');
+      this.$caption.text(this.emptyText);
       this._asset = null;
     }
   }

@@ -32,15 +32,11 @@ $.rebind(function(context) {
 });
 
 $(function() {
-  
+  disco.pluckTemplates();
   Repeater.configureForRails();
-  
   $.rebind();
-  
 });
 
 $(window).unload(function() {
-  
   Widget.destroyAll();
-  
 });

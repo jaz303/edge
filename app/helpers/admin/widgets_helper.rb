@@ -11,11 +11,9 @@ module Admin::WidgetsHelper
   # Asset input
   
   def asset_input(name, asset = nil, options = {})
-    
-    
     html  = "<div class='widget widget-AssetInput' data-asset='#{h(asset.to_json) if asset}'>\n"
     html << "  <div class='_icon'></div>"
-    html << "  <span class='_caption'></span><br>"
+    html << "  <span class='_caption'>(no #{options[:description] || 'file'} selected)</span><br>"
     html << "  <a href='#' rel='change'>Choose new...</a> | <a href='#' rel='remove'>Remove</a>"
     html << "  " << hidden_field_tag(name, asset ? asset.id : '')
     html << "  <div class='c'></div>\n"
