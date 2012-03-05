@@ -8,7 +8,8 @@ class FilesController < ApplicationController
 private
   
   def do_show(type, options = {})
-    @file, @image = UploadedFile.find(params[:id]), @file.web_safe_image?
+    @file   = UploadedFile.find(params[:id])
+    @image  = @file.web_safe_image?
     
     if type == :thumb && @file.thumbnail.path.blank? && @image
       type = :original
