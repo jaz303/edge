@@ -58,7 +58,7 @@
       var curr = stack.pop();
       if (curr.nodeType != 1) continue;
       if (fn.call(null, curr) !== false) {
-        for (i = 0; i < curr.childNodes.length; i++) {
+        for (var i = 0; i < curr.childNodes.length; i++) {
           if (!isTemplate(curr.childNodes[i])) {
             stack.push(curr.childNodes[i]);
           }
@@ -70,9 +70,9 @@
   function walkChildTemplates(root, fn) {
     var stack = [root];
     while (stack.length) {
-      var curr = stack.pop();
+      var curr = stack.shift();
       if (curr.nodeType != 1) continue;
-      for (i = 0; i < curr.childNodes.length; i++) {
+      for (var i = 0; i < curr.childNodes.length; i++) {
         var child = curr.childNodes[i];
         if (isTemplate(child)) {
           fn.call(null, getTemplate(child));
@@ -156,39 +156,48 @@
       var container = $('[' + DISCO_CONTAINER_KEY + ']', ele),
           whenEmpty = $('[' + DISCO_EMPTY_CHILDREN_KEY + ']', ele).remove(),
           wrapper   = $('[' + DISCO_WRAPPER_KEY + ']', ele).remove(),
+          context   = tpl.getContext(),
           $ele      = $(ele);
           
       var allowedTypes = $(ele).attr(DISCO_ACCEPTED_CHILDREN_KEY) || null;
       if (allowedTypes) allowedTypes = allowedTypes.split(',');
       
-      if (!container.length) {
-        container = $ele;
+      if (container.length > 1) {
+        throw "container length must be 0 or 1!";
+      } else if (!container.length) {
+        container = ele;
+      } else {
+        container = container[0];
       }
       
-      container.html(whenEmpty.length ? whenEmpty : '');
+      function doAddChild(templateType) {
+        var templateKlass = context.getTemplate(templateType),
+            template      = new templateKlass(context),
+            target        = container;
+        
+        whenEmpty.remove();
+        
+        if (wrapper.length) {
+          target = wrapper.clone()
+                          .data('disco-child-guard', template)
+                          .appendTo(container);
+        } else {
+          template.getRoot().data('disco-child-guard', template);
+        }
+        
+        template.appendTo(target);
+        
+        return template;
+      }
+      
+      $(container).html(whenEmpty.length ? whenEmpty : '');
       
       $ele.on('click', 'a[rel=' + DISCO_ACTION_ADD_CHILD + ']', function(evt) {
         evt.stopPropagation();
         evt.preventDefault();
-        
-        var context   = tpl.getContext();
             
-        function doAddChild(klass) {
-          var template = new klass(context);
-          whenEmpty.remove();
-          var target = container;
-          if (wrapper.length) {
-            target = wrapper.clone();
-            target.data('disco-child-guard', template);
-            target.appendTo(container);
-          } else {
-            template.getRoot().data('disco-child-guard', template);
-          }
-          template.appendTo(target);
-        }
-        
         if (allowedTypes.length == 1) {
-          doAddChild(context.getTemplate(allowedTypes[0]));
+          doAddChild(allowedTypes[0]);
         } else {
           var choices = [];
           
@@ -199,7 +208,7 @@
           
           Boxy.select('Select the type of object to add:', choices, {
             confirm: function(type) {
-              doAddChild(context.getTemplate(type));
+              doAddChild(type);
             }
           });
         }
@@ -231,7 +240,7 @@
       return {
         get: function() {
           var children = [];
-          walkChildTemplates(ele, function(tpl) {
+          walkChildTemplates(container, function(tpl) {
             children.push(tpl.serialize());
           });
           return children;
@@ -239,7 +248,10 @@
         
         set: function(val) {
           for (var i = 0; i < val.length; i++) {
+            var obj       = val[i],
+                template  = doAddChild(obj._type);
             
+            template.unserialize(obj);
           }
         }
       };
@@ -264,7 +276,7 @@
             inputs[this.getAttribute('value')] = this;
           });
           for (var k in val) {
-            inputs[k].checked = val;
+            inputs[k].checked = val[k];
           }
         }
       }
@@ -334,6 +346,7 @@
     methods: {
       init: function(context) {
         this._context = context;
+        this._templateType = this.getType(); // for debugging
       },
       
       getContext: function() {
@@ -472,7 +485,7 @@
         var onField   = options.onField || function() {},
             onWidget  = options.onWidget || function() {};
         
-        this._walkChildNodes(function(ele) {
+        walkChildNodes(this._rootElement, function(ele) {
           if (Widget.elementIsInputWidget(ele)) {
             onWidget(ele, Widget.widgetForElement(ele));
           } else {
