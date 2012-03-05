@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Edge CMS Admin</title>
+    <link rel='stylesheet' href='css/bootstrap.css' type='text/css'></link>
+    <style type='text/css'>
+      body { padding-top: 60px; background: url(img/furley_bg.png); }
+      
+      .well.well-white {
+        background-color: white;
+        border-color: #e0e0e0;
+        border-color: rgba(0, 0, 0, 0.15);
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.15);
+        -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.15);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.15);
+      }
+      
+      .table .error-row {
+        
+      }
+      
+      .table-striped tbody tr.error-row td,
+      .table-striped tbody tr.error-row th,
+      .table-striped tbody tr.error-row td:hover,
+      .table-striped tbody tr.error-row th:hover {
+        background-color: #f9f9f9;
+        color: #b94a48;
+        text-align: center;
+      }
+
+    </style>
+  </head>
+  <body>
+    
+    <!-- TOOLBAR -->
+    <div class='navbar navbar-fixed-top'>
+      <div class='navbar-inner'>
+        <div class='container-fluid'>
+          <a class='brand' href='#'>EdgeCMS</a>
+          <ul class="nav">
+            <li><a href="#">Site Tree</a></li>
+            <li><a href="#">Drafts</a></li>
+          </ul>
+          <ul class="nav pull-right">
+            <li class="dropdown">
+              <a href="#"
+                    class="dropdown-toggle"
+                    data-toggle="dropdown">
+                    Module
+                    <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                ...
+              </ul>
+            </li>
+          </ul>
+          <form class="navbar-search pull-right">
+            <input type="text" class="search-query" placeholder="Search">
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- END TOOLBAR -->
+    
+    <div class="container-fluid">
+      
+      <div class="row-fluid">
+        
+        <!-- Sidebar -->
+        <div class="span3">
+          <div class='well well-white' style='padding:8px 0'>
+            <ul class="nav nav-list">
+              <li class="nav-header">
+                Access Control
+              </li>
+              <li class="active">
+                <a href="#"><i class='icon-user icon-white'></i> Users</a>
+              </li>
+              <li>
+                <a href="#">Groups</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Main -->
+        <div class="span9">
+          
+          <div class='well well-white' style='padding: 15px'>
+          
+
+          
+          <div class='page-header' style='margin-top: 0'>
+            <h1>
+              Users
+              <!-- <small>Manage existing users and add new ones!</small> -->
+              
+              <div class="btn-group pull-right">
+                <a class="btn" href="#"><i class='icon-plus-sign'></i> Add New User</a>
+                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <!-- dropdown menu links -->
+                </ul>
+              </div>
+              
+              <span class='pull-right'>
+                
+                
+                <!-- <a class="btn btn-small btn-default" href=""></a>
+                <a class="btn btn-small btn-default" href=""><i class='icon-download'></i> Download User Data</a> -->
+              </span>
+            </h1>
+          </div>
+          
+          <!-- <div class='alert alert-error'>
+            <a class="close">&times;</a>
+            <h4 class='alert-heading'>The following errors occurred:</h4>
+            <ul>
+              <li>Foo cannot be bar</li>
+              <li>Trolololol is invalid!</li>
+            </ul>
+          </div> -->
+          
+          <!-- <ul class="nav nav-tabs">
+            <li class="active">
+              <a href="#">Active Users</a>
+            </li>
+            <li><a href="#">Inactive Users</a></li>
+            <li><a href="#">Banned Users</a></li>
+          </ul> -->
+          
+          <form class='well form-inline' style='padding: 12px'>
+            Show users where
+            <select class='span2'>
+              <option>username</option>
+            </select>
+            matches
+            <input type='text' class='span3' />
+            <button type='submit' class='btn'>Search</button>
+          </form>
+          
+          <table class="table table-striped table-bordered table-condensed">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Name</th>
+                <th style='width:120px; text-align:right'>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- <tr>
+                <td>1</td>
+                <td><span class="label label-success">Admin</span> jaz303</td>
+                <td>Jason Frame</td>
+                <td  style='width:100px; text-align:right'>
+                  <a class="btn btn-mini btn-default" href=""><i class='icon-pencil'></i> Edit</a>
+                  <a class="btn btn-mini btn-danger" href=""><i class='icon-remove-sign icon-white'></i> Delete</a>
+                </td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>jaz303</td>
+                <td>Jason Frame</td>
+                <td style='width:100px; text-align:right'>
+                  <a class="btn btn-mini btn-default" href=""><i class='icon-pencil'></i></a>
+                  <a class="btn btn-mini btn-danger" href=""><i class='icon-remove-sign icon-white'></i></a>
+                </td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>jaz303</td>
+                <td>Jason Frame</td>
+                <td style='width:100px; text-align:right'>
+                  <a class="btn btn-mini btn-default" href=""><i class='icon-pencil'></i></a>
+                  <a class="btn btn-mini btn-danger" href=""><i class='icon-remove-sign icon-white'></i></a>
+                </td>
+              </tr> -->
+              <tr class='error-row'>
+                <td colspan='4'>No users found</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <div class="pagination pagination-right">
+            <ul>
+              <li><a href="#">Prev</a></li>
+              <li class="active">
+                <a href="#">1</a>
+              </li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li><a href="#">4</a></li>
+              <li><a href="#">Next</a></li>
+            </ul>
+          </div>
+          
+          </div>
+          
+          <ul class="breadcrumb">
+            <li>
+              <a href="#">Home</a> <span class="divider">/</span>
+            </li>
+            <li>
+              <a href="#">Library</a> <span class="divider">/</span>
+            </li>
+            <li class="active">
+              <a href="#">Data</a>
+            </li>
+          </ul>
+          
+          
+        </div>
+      </div>
+    </div>
+  
+  </body>
+</html>
