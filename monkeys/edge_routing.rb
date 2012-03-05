@@ -18,6 +18,7 @@ ActionDispatch::Routing::Mapper::Base.class_eval do
         namespace :admin do
           match 'file_manager/list'               => 'file_manager#list',           :via => :get
           match 'file_manager/folder_list'        => 'file_manager#folder_list',    :via => :get
+          match 'file_manager/show_file/:id'      => 'file_manager#show_file',      :via => :get
           match 'file_manager/delete'             => 'file_manager#delete',         :via => :post
           match 'file_manager/move'               => 'file_manager#move',           :via => :post
           match 'file_manager/create_file'        => 'file_manager#create_file',    :via => :post

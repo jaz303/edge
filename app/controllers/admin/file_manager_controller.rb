@@ -25,6 +25,10 @@ class Admin::FileManagerController < Admin::BaseController
     render :json => FileFolder.indent
   end
   
+  def show_file
+    render :json => UploadedFile.find(params[:id])
+  end
+  
   def delete
     (params[:uploaded_file_ids] || []).each { |a| UploadedFile.destroy(a) }
     (params[:file_folder_ids]   || []).each { |f| FileFolder.destroy(f)   }
