@@ -10,7 +10,11 @@
       DISCO_WRAPPER_KEY             = 'data-disco-wrapper',
       
       DISCO_ACTION_ADD_CHILD        = 'disco-add-child',
-      DISCO_ACTION_DELETE_CHILD     = 'disco-delete-child';
+      DISCO_ACTION_DELETE_CHILD     = 'disco-delete-child',
+      DISCO_ACTION_MOVE_UP          = 'disco-move-up',
+      DISCO_ACTION_MOVE_DOWN        = 'disco-move-down',
+      
+      DISCO_CHILD_CONTROLS_CLASS    = 'disco-child-controls'
   
   function log() {
     console.log.apply(console, arguments);
@@ -137,6 +141,7 @@
           templateClass = context.getTemplate(ele.getAttribute('data-disco-include-template-type')),
           template      = new templateClass(context);
       
+      template.removeChildControls();
       template.appendTo(ele);
       
       return {
@@ -170,6 +175,22 @@
         container = container[0];
       }
       
+      function isEmpty() {
+        return $('> *', container).length == 0;
+      }
+      
+      function findGuard(ele) {
+        do {
+          var guardedTemplate = $.data(ele, 'disco-child-guard');
+          if (guardedTemplate) {
+            return { element: ele, template: guardedTemplate };
+          } else {
+            ele = ele.parentNode;
+          }
+        } while (ele);
+        return null;
+      }
+      
       function doAddChild(templateType) {
         var templateKlass = context.getTemplate(templateType),
             template      = new templateKlass(context),
@@ -193,9 +214,6 @@
       $(container).html(whenEmpty.length ? whenEmpty : '');
       
       $ele.on('click', 'a[rel=' + DISCO_ACTION_ADD_CHILD + ']', function(evt) {
-        evt.stopPropagation();
-        evt.preventDefault();
-            
         if (allowedTypes.length == 1) {
           doAddChild(allowedTypes[0]);
         } else {
@@ -212,29 +230,34 @@
             }
           });
         }
+        
+        return false;
+      });
+      
+      $ele.on('click', 'a[rel=' + DISCO_ACTION_MOVE_UP + ']', function(evt) {
+        var guard = findGuard(evt.target);
+        if (!guard) throw "couldn't find guard element when attempting to move up";
+        var ele = guard.element;
+        if (ele.previousSibling) ele.parentNode.insertBefore(ele, ele.previousSibling);
+        return false;
+      });
+      
+      $ele.on('click', 'a[rel=' + DISCO_ACTION_MOVE_DOWN + ']', function(evt) {
+        var guard = findGuard(evt.target);
+        if (!guard) throw "couldn't find guard element when attempting to move down";
+        var ele = guard.element;
+        if (ele.nextSibling) ele.parentNode.insertBefore(ele, ele.nextSibling.nextSibling);
+        return false;
       });
       
       $ele.on('click', 'a[rel=' + DISCO_ACTION_DELETE_CHILD + ']', function(evt) {
-        evt.stopPropagation();
-        evt.preventDefault();
-        
-        var ele = evt.target;
-        do {
-          var childGuard = $.data(ele, 'disco-child-guard');
-          if (childGuard) {
-            childGuard.remove();
-            $.data(ele, 'disco-child-guard', null);
-            if (ele.parentNode) {
-              ele.parentNode.removeChild(ele);
-            }
-            if ($('> *', container).length == 0) {
-              whenEmpty.appendTo(container);
-            }
-            break;
-          } else {
-            ele = ele.parentNode;
-          }
-        } while (ele);
+        var guard = findGuard(evt.target);
+        if (!guard) throw "couldn't find guard element when attempting to remove";
+        guard.template.remove();
+        $(guard.element).data('disco-child-guard', null);
+        if (guard.element.parentNode) guard.element.parentNode.removeChild(guard.element);
+        if (isEmpty()) whenEmpty.appendTo(container);
+        return false;
       });
       
       return {
@@ -399,6 +422,10 @@
         if (targetInDOM) this._broadcastDown('_didAttach');
       },
       
+      removeChildControls: function() {
+        this._childControlsRemoved = true;
+      },
+      
       // call a named method on this and all descendant templates
       // additional args are passed on too.
       _broadcastDown: function(method) {
@@ -461,6 +488,9 @@
       _createHTML: function() {
         var clone = $(this._class.getTemplate()).clone();
         clone.data(DISCO_TEMPLATE_KEY, this);
+        if (this._childControlsRemoved) {
+          clone.find('.' + DISCO_CHILD_CONTROLS_CLASS).remove();
+        }
         return clone;
       },
       
@@ -524,6 +554,7 @@
       this.clear();
       var templateClass = this._context.getTemplate(rootType);
       this._rootTemplate = new templateClass(this._context);
+      this._rootTemplate.removeChildControls();
       this._rootTemplate.appendTo(this._getHTML());
     },
     
