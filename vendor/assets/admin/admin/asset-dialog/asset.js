@@ -98,7 +98,7 @@
   
   function AssetFolder(delegate, opts) { this._delegate = delegate; this._extract(opts); };
   $.extend(AssetFolder.prototype, commonMethods, {
-    isFolder            : function() { return true; },
+    isFolder            : function() { return true; }
   });
   
   function AssetFile(delegate, opts) { this._delegate = delegate; this._extract(opts) };

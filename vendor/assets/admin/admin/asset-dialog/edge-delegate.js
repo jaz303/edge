@@ -2,6 +2,7 @@
   
   var URLS = {
     list                : '/admin/file_manager/list',
+    get_file            : '/admin/file_manager/show_file/{id}',
     create_folder       : '/admin/file_manager/create_folder',
     create_file         : '/admin/file_manager/create_file',
     'delete'            : '/admin/file_manager/delete',
@@ -34,7 +35,24 @@
   $.extend(EdgeDelegate.prototype, {
     
     //
+    //
+    
+    getDelegateID: function() {
+      return "edge";
+    },
+    
+    //
     // Public interface
+    
+    openFile: function(id, callback) {
+      var self = this;
+      $.ajax({
+        type        : 'GET',
+        url         : url_for('get_file', {id: id}),
+        success     : function(json) { callback(self.jsonToEntry(json), false); },
+        error       : function() { callback(null, true); } // TODO: more comprehensive error object
+      });
+    },
     
     doQuery: function(query, then) {
       var self = this;

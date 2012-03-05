@@ -44,16 +44,24 @@ AssetInput = Widget.Input.extend({
     },
     
     serializeValue: function() {
-      var val = this.getValue();
-      if (val) {
-        return {'__file__': val.getID()};
-      } else {
-        return {'__file__': null};
-      }
+      return AssetDialog.serialize(this.getValue());
     },
     
     unserializeValue: function(v) {
+      var self          = this,
+          setByCallback = false,
+          assetID       = null;
       
+      assetID = AssetDialog.unserialize(v, function(asset, error) {
+        if (!error) {
+          setByCallback = true;
+          self.setValue(asset);
+        }
+      });
+      
+      if (!setByCallback) {
+        this.$input.val(assetID ? assetID : '');
+      }
     },
     
     _removeAsset: function() {
