@@ -1,3 +1,6 @@
+//= require ./core_extensions/number.js
+//= require ./core_extensions/date.js
+
 //= require ./classy.js
 
 //= require ./jquery.min.js
