@@ -38,6 +38,12 @@ ActionDispatch::Routing::Mapper::Base.class_eval do
     end
   end
   
+  def edge_admin
+    namespace :admin do
+      yield if block_given?
+    end
+  end
+  
   def edge_admin_resource(res)
     namespace :admin do
       resource res do
