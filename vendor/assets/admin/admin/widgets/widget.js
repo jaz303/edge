@@ -53,7 +53,15 @@ Widget.Input = Widget.extend({
     getName           : function() { throw "implement me"; },
     getValue          : function() { throw "implement me"; },
     setValue          : function(v) { throw "implement me"; },
+    
+    // return a representation of this input's value that can be reversibly serialised to JSON
+    // i.e. object, array, number, string, boolean or null
+    // this differs from getValue(), which is allowed to make use of more complex domain objects.
     serializeValue    : function() { return this.getValue(); },
+    
+    // restore widget state from serialized data retrieved from serializeValue()
+    // it is permissible for this method to operate asynchronously, for example in situations
+    // where it is first necessary to retrieve metadata.
     unserializeValue  : function(v) { this.setValue(v); }
   }
 });
