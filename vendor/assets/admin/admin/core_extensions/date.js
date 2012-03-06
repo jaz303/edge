@@ -5,7 +5,7 @@
 
 (function() {
   
-  var ISO8601_MATCHER = /^(\d{4})-(\d{2})-(\d{2})(T(\d{2}):(\d{2}):(\d{2})(\.(\d{1,3}))?(Z)?)?$/;
+  var ISO8601_MATCHER = /^(\d{4})-(\d{2})-(\d{2})(T(\d{2}):(\d{2}):(\d{2})(\.(\d{1,3}))?(Z|\+00(\:?00)?)?)?$/;
   
   var MONTHS = [
 		'January', 'February', 'March', 'April', 'May', 'June', 'July',
@@ -23,7 +23,7 @@
     var match = (str || '').match(ISO8601_MATCHER);
     if (match) {
       var year  = match[1],
-          month = match[2],
+          month = parseInt(match[2], 10) - 1,
           day   = match[3],
           hour  = match[5] || 0,
           min   = match[6] || 0,
