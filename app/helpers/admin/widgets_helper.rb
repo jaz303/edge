@@ -8,6 +8,20 @@ module Admin::WidgetsHelper
   end
   
   #
+  # Date input
+  
+  def date_input(name, date = nil, options = {})
+    html  = "<span class='widget widget-DateInput'>\n"
+    html << "  <input type='text' class='widget-DateInput-display' />\n"
+    if options[:optional]
+      html << "  <a href='#' rel='remove' class='widget-DateInput-remove'>&times;</a>"
+    end
+    html << "  <input type='hidden' name='#{name}' value='#{date.try(:iso8601)}' />\n"
+    html << "</span>\n"
+    html.html_safe
+  end
+  
+  #
   # Asset input
   
   def asset_input(name, asset = nil, options = {})

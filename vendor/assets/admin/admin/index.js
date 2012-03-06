@@ -10,6 +10,8 @@
 //= require ./boxy/jquery.boxy.js
 //= require ./swfupload/swfupload.js
 
+//= require ./datepicker/datepicker.js
+
 //= require ./widgets/index.js
 //= require ./tree-widget/index.js
 //= require ./disco/index.js
