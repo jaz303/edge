@@ -455,10 +455,16 @@
       _unserialize: function(data) {
         this._walkValueNodes({
           onField: function(ele, fieldType) {
-            getDataObject(ele).set(data[getFieldName(ele)]);
+            var name = getFieldName(ele);
+            if (name in data) {
+              getDataObject(ele).set(data[name]);
+            }
           },
           onWidget: function(ele, widget) {
-            widget.unserializeValue(data[widget.getName()]);
+            var name = widget.getName();
+            if (name in data) {
+              widget.unserializeValue(data[name]);
+            }
           }
         });
       },
