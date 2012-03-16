@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'mini_magick'
   s.add_dependency 'paperclip', '~> 2.4'
   s.add_dependency 'awesome_nested_set'
+  s.add_dependency 'acts-as-taggable-on', '~> 2.2.2'
   
   bin     = Dir["bin/*"]
   db      = Dir["db/**/*.rb"]
