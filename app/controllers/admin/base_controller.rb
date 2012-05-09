@@ -73,4 +73,37 @@ private
   def require_logged_in_admin
     redirect_to(new_admin_session_url) unless admin_logged_in?
   end
+  
+  #
+  # Simplified success/error rendering
+  
+  def render_success
+    respond_to do |wants|
+      wants.json { render_json_success }
+    end
+  end
+  
+  def render_error(error = nil)
+    respond_to do |wants|
+      wants.json { rendor_json_error(error) }
+    end
+  end
+  
+  def render_json_success
+    render :status => :ok, :json => {:success => true}
+  end
+  
+  def render_json_error(error = nil, message = nil)
+    message ||= error.message if error
+    message = "An unknown error occurred" if message.blank?
+    
+    status, json_error = :error, {}
+    
+    if error.is_a?(ActiveRecord::RecordInvalid)
+      status = :not_acceptable
+      json_error[:errors] = error.record.errors
+    end
+    
+    render :status => status, :json => {:errpr => json_error}
+  end
 end
