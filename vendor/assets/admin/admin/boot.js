@@ -25,6 +25,14 @@ $.rebind(function(context) {
   });
   
   //
+  // CodeMirror
+  
+  $('textarea.code-mirror').each(function() {
+    var config = $(this).data('code-mirror-config');
+    CodeMirror.fromTextArea(this, config);
+  });
+  
+  //
   // Widgets
   
   Widget.initializeAll(context);

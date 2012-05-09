@@ -10,6 +10,7 @@ class Admin::BaseController < ApplicationController
   helper 'admin/form'
   helper 'admin/list_view'
   helper 'admin/widgets'
+  helper 'admin/code_mirror'
   
   helper 'edge/file'
   helper 'edge/icon'

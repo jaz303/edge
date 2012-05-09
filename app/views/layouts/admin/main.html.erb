@@ -12,6 +12,8 @@
   <%= javascript_include_tag 'admin/index.js' %>
   <%= javascript_include_tag '/javascripts/tiny_mce/tiny_mce.js',
                              '/javascripts/tiny_mce/jquery.tinymce.js' %>
+                             
+  <%= code_mirror_asset_tags if using_code_mirror? %>
 
 <!--
   <%#= javascript_include_tag 'admin/jquery.min.js',
