@@ -46,7 +46,11 @@ module Edge
     
     initializer 'edge.init' do |app|
       rails_config = app.config
-      rails_config.assets.precompile += %w( admin/main.js admin/main.css admin/flash.css )
+      rails_config.assets.precompile += [
+        'admin/main.js',              'admin/main.css',
+        'admin/codemirror/index.js',  'admin/codemirror/index.css',
+                                      'admin/flash.css'
+      ]
       
       edge_app = ::Edge::Application.new(rails_config)
       ::Edge.__send__(:set_application, edge_app)
