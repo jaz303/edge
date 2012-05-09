@@ -6,6 +6,8 @@
 //= require ./jquery.min.js
 //= require ./jquery.rebind.js
 
+//= require ./ujs/index.js
+
 //= require ./tipsy/jquery.tipsy.js
 //= require ./boxy/jquery.boxy.js
 //= require ./swfupload/swfupload.js

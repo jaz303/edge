@@ -101,7 +101,7 @@ module Admin::ListViewHelper
           url = '#'
         end
         
-        @template.link_to(text.html_safe, url)
+        @template.link_to(text.html_safe, url, a.slice(:confirm, :method, :remote))
       }.join(' | ')
       
       html << "<td>#{actions}</td>"
