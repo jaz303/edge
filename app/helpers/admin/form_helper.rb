@@ -45,6 +45,7 @@ module Admin::FormHelper
     VISIBLE_FIELD_HELPERS = {
       :asset_field                => 1,
       :check_box                  => 1,
+      :code_mirror_editor         => 1,
       :collection_select          => 4,
       :date_select                => 1,
       :datetime_select            => 1,
@@ -71,6 +72,10 @@ module Admin::FormHelper
       html_options[:class] ||= ''
       html_options[:class] << " #{form_class}"
       super
+    end
+    
+    def code_mirror_editor(method, options = {})
+      @template.code_mirror_editor_tag("#{@object_name}[#{@method}]", @object.send(method), options)
     end
     
     def asset_field(method, options = {})
