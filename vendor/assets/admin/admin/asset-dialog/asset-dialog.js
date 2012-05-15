@@ -81,6 +81,9 @@ AssetDialog.prototype = {
 		} else {
 			button.attr('disabled', 'disabled');
 		}
+		if (this.view.highlightSelected) {
+		  this.view.highlightSelected();
+		}
 	},
 	
 	setMode: function(mode, callback) {
@@ -166,6 +169,7 @@ AssetDialog.prototype = {
 			$browser.show();
 			self.view = new AssetDialog[$(this).find('a').attr('rel')]();
 			self.view.setPanel($contents);
+			self.view.setDialog(self);
 			self.refresh();
 			return false;
 		});
@@ -535,7 +539,10 @@ AssetDialog.EditForm.prototype = {
 
 AssetDialog.AbstractView = function() {};
 AssetDialog.AbstractView.prototype = {
-	setPanel: function(p) {
+  setDialog: function(d) {
+    this.dialog = d;
+  },
+  setPanel: function(p) {
 		this.panel = p;
 	},
 	setItems: function(entries) {
@@ -546,9 +553,25 @@ AssetDialog.AbstractView.prototype = {
 		this.panel.html(this.render());
 		$('.asset-dialog-entry', this.panel).each(function() {
 			this.onselectstart = function() { return false; }
-            this.unselectable = 'on';
-            this.style.MozUserSelect = 'none';
+      this.unselectable = 'on';
+      this.style.MozUserSelect = 'none';
 		});
+		this.highlightSelected();
+	},
+	highlightSelected: function() {
+	  var asset = this.dialog.asset;
+	  if (!asset) {
+	    this.panel.find('.asset-dialog-entry').removeClass('asset-dialog-entry-selected');
+	  } else {
+	    this.panel.find('.asset-dialog-entry').each(function() {
+	      var e = $.data(this, 'asset-dialog-entry');
+	      if (e.isFile() && e.getID() == asset.getID()) {
+	        $(this).addClass('asset-dialog-entry-selected');
+	      } else {
+	        $(this).removeClass('asset-dialog-entry-selected');
+	      }
+	    });
+	  }
 	}
 };
 

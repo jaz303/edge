@@ -15,12 +15,16 @@ AssetInput = Widget.Input.extend({
         this._removeAsset();
       }
       
-      $('a[rel=change]', this.root).click(function() {
+      $('a[rel=change]', this.root).click(function(evt) {
         AssetDialog.select(function(asset) { self.setValue(asset); });
+        evt.preventDefault();
+        evt.stopPropagation();
       });
       
-      $('a[rel=remove]', this.root).click(function() {
+      $('a[rel=remove]', this.root).click(function(evt) {
         self._removeAsset();
+        evt.preventDefault();
+        evt.stopPropagation();
       });
     },
     
