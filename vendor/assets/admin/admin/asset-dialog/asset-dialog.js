@@ -305,6 +305,16 @@ AssetDialog.prototype = {
 			
 		});
 		
+		function commit(entry) {
+		  if (self.callback) {
+		    self.callback(entry);
+		    self.setMode('browse');
+		    self.hide();
+		  } else {
+		    self._alert('Oops!', 'No callback defined - this is probably a bug');
+		  }
+		}
+		
 		$upload.click(function(evt) {
 			var $target = $(evt.target);
 			if($target.is('.asset-action-edit')) {
@@ -312,21 +322,16 @@ AssetDialog.prototype = {
 			} else if($target.is('.dismiss')) {
 				var $li = $target.parents('li:first');
 				$li.fadeOut();
+			} else if ($target.is('.select')) {
+			  var entry = $.data($(evt.target).closest('.asset-dialog-entry')[0], 'asset-dialog-entry');
+			  commit(entry);
 			}
 			return false;
 		});
 		
-		$select.click(function() {
-			if (self.callback) {
-				self.callback(self.asset);
-				self.setMode('browse');
-				self.hide();
-			} else {
-				self._alert('Oops!', 'No callback defined - this is probably a bug');
-			}
-		});
+		$select.click(function() { commit(self.asset); });
 		
-        return $html;
+    return $html;
 		
 	},
 	
@@ -719,10 +724,16 @@ AssetDialog.prototype.initSWFUpload = function() {
 			}
 			var $q = $(self.root).find('.queued-file-' + file.index);
 			$q.addClass('complete').find('.marker').css('width','100%');
-			$q.append($('<div />').addClass('actions')
-				.append($("<a class='dismiss' href='#'>dismiss</a>"))
-				.append($("<a class='asset-action-edit' href='#'>e</a>"))
-			);
+			
+			var $actions = $('<div />').addClass('actions')
+			                           .append($("<a class='dismiss' href='#'>dismiss</a>"))
+			                           .append($("<a class='asset-action-edit' href='#'>e</a>"));
+			
+			$q.append($actions);
+				
+			if (self.mode == 'select') {
+			  $actions.append($("<input type='button' class='select' value='Select' />"));
+			}
 		},
 		
 		upload_progress_handler: function(file, x, y) {
