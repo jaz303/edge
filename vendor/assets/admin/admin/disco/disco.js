@@ -270,6 +270,7 @@
         },
         
         set: function(val) {
+          if (!val) val = [];
           for (var i = 0; i < val.length; i++) {
             var obj       = val[i],
                 template  = doAddChild(obj._type);
@@ -294,6 +295,7 @@
         },
         
         set: function(val) {
+          if (!val) val = {};
           var inputs = {};
           $('input[type=checkbox]', ele).each(function() {
             inputs[this.getAttribute('value')] = this;
