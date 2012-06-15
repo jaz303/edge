@@ -75,11 +75,11 @@ module Admin::FormHelper
     end
     
     def code_mirror_editor(method, options = {})
-      @template.code_mirror_editor_tag("#{@object_name}[#{@method}]", @object.send(method), options)
+      @template.code_mirror_editor_tag("#{@object_name}[#{method}]", @object.send(method), options)
     end
     
     def asset_field(method, options = {})
-      @template.asset_input("#{@object_name}[#{@method}]", @object.send(method))
+      @template.asset_input("#{@object_name}[#{method}_id]", @object.send(method))
     end
     
     def form_class
