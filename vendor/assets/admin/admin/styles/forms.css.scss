@@ -44,3 +44,13 @@ form.tabular {
 		margin-left: $tabular_form_label_width + $tabular_form_spacing_h;
 	}
 }
+
+//
+// Filter forms
+
+.filter-form {
+    background: #efefef;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #b0b0b0;
+}
