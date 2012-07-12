@@ -89,7 +89,7 @@
             self.$caption.text('An error occurred');
           }
           self._state = S_READY;
-          sefl._unserializationData = null;
+          self._unserializationData = null;
         });
         
         if (this._state == S_UNSERIALIZING) {
