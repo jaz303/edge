@@ -103,37 +103,6 @@
     },
     
     //
-    // Asset - integrates with file manager
-    
-    asset: function(tpl, ele) {
-      var input     = $('input[type=hidden]', ele),
-          actuator  = $('a', ele);
-      
-      actuator.click(function() {
-        AssetDialog.select(function(asset) {
-          $(ele).text(asset.fileName + ' (click to change)');
-        });
-        return false;
-      });
-      
-      return {
-        get: function() {
-          var assetId = input.val() || null;
-          return assetId ? {_type: 'asset', id: assetId} : null;
-        },
-        set: function(val) {
-          if ('object' == typeof val) {
-            input.val(val.id);
-          } else if (val) {
-            input.val(val);
-          } else {
-            input.val('');
-          }
-        }
-      }
-    },
-    
-    //
     // Include - inserts another template in-place
     
     include: function(tpl, ele) {
