@@ -16,7 +16,9 @@
   };
   
   function url_for(key, params) {
-    return URLS[key].replace(/\{([\w-]+)\}/g, function(m) { return params[RegExp.$1] || ''; });
+    return URLS[key].replace(/\{([\w-]+)\}/g, function(m) {
+      return params[m.substr(1, m.length - 2)] || '';
+    });
   };
   
   function icon_url(icon) {
