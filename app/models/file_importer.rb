@@ -6,7 +6,9 @@ class FileImporter
   attr_accessor :target_folder
   
   def import!
+    @imported_files = {}
     import_folder(@source_directory, @target_folder)
+    @imported_files
   end
 
 private
@@ -26,7 +28,8 @@ private
       else
         begin
           $stdout.puts "import: #{file}"
-          UploadedFile.create!(:folder => target_folder, :file => File.new(file))
+          new_file = UploadedFile.create!(:folder => target_folder, :file => File.new(file))
+          @imported_files[file] = new_file.id
         rescue => e
           $stderr.puts "error importing `#{file}` (#{e.message})"
         end
